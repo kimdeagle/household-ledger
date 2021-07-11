@@ -9,4 +9,13 @@
 	</div>
 </div>
 </body>
+<script>
+	$(document).ready(function() {
+		var user = "${user}";
+		if (user === "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/";
+		}
+	})
+</script>
 </html>

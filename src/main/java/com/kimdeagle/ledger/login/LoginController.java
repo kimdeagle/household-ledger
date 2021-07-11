@@ -1,5 +1,7 @@
 package com.kimdeagle.ledger.login;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,8 +31,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/logout")
-	public String logout() {
-		//session invalidate
+	public String logout(HttpSession session) {
+		session.invalidate();
 		return "login";
 	}
 	

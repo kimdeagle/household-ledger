@@ -13,6 +13,12 @@
 		line-height: inherit;
 	}
 	
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	  -webkit-appearance: none;
+	  margin: 0;
+	}
+	
 </style>
 
 	<div class="col s10">
@@ -43,13 +49,13 @@
 					</div>
 					<div class="col s5">
 						<div class="col s4">
-							<input type="text" class="center-align" placeholder="최소 0원">
+							<input type="number" min=0 class="center-align" placeholder="최소 0원">
 						</div>
 						<div class="col s2 center-align">
 							<span style="font-size: 1.8rem;">~</span>
 						</div>
 						<div class="col s4">
-							<input type="text" class="center-align">
+							<input type="number" class="center-align">
 						</div>
 					</div>
 				</div>
@@ -106,10 +112,15 @@
 						<h6 class="center-align">검색어</h6>
 					</div>
 					<div class="col s5">
-						<div class="col s10">
+						<div class="col s8">
 							<input type="text">
 						</div>
-						<a class="waves-effect waves-light btn right">검색</a>
+						<div class="col s4 hide-on-med-and-down">
+							<a class="waves-effect waves-light btn">검색</a>						
+						</div>
+						<div class="col s4 hide-on-large-only">
+							<a class="waves-effect waves-light btn"><i class="material-icons">search</i></a>						
+						</div>
 					</div>
 				</div>
 			</div>
@@ -122,19 +133,37 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s12">
+			<div class="col s11">
 				<a class="waves-effect waves-light btn right">추가</a>
-			</div>		
+			</div>
 		</div>
-		<br>
-		페이지네이션
-		<br>
-		추가/수정/삭제
-		<br>
+		<div class="row">
+			<h5>2021.07.11 이후 예정사항</h5>
+			1. 검색 그리드 테이블로 변경
+			<br>
+			2. SY_LEDGER 테이블 생성 (필요한 컬럼 생각)
+			<br>
+			3. 가계부 목록(검색 결과) 그리드 생성
+			<br>
+			4. 검색 기능
+			<br>
+			5. 추가 기능
+			<br>
+			6. 상세 기능 - 목록에서 클릭하면 모달로 상세 띄우기 - 상세에 수정, 삭제 기능 추가
+			<br>			
+			7. 페이지네이션
+		</div>
 	</div>
 </div>
 </body>
 <script>
+	$(document).ready(function() {
+		var user = "${user}";
+		if (user === "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/";
+		}
+	})
 	document.addEventListener('DOMContentLoaded', function() {
 		var datepicker = document.querySelectorAll('.datepicker');
 		var datepickerInstance = M.Datepicker.init(datepicker, {
