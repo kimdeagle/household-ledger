@@ -20,14 +20,21 @@
 			</li>
 			<li>
 				<a id="ledger" href="#!" class="waves-effect waves-light blue-grey btn-large col s12">
+					<i class="material-icons left">event_note</i>
 					가계부
 					<i class="material-icons right">arrow_drop_down</i>
 				</a>
 			</li>
 			<li>
 				<div id="ledgerMenu">
-					<a id="ledgerManage" href="/ledger" class="waves-effect waves-light blue-grey lighten-1 btn col s12">가계부 관리</a>
-					<a id="ledgerStat" href="#!" class="waves-effect waves-light blue-grey lighten-1 btn col s12">가계부 통계</a>
+					<a id="ledgerManage" href="/ledger" class="waves-effect waves-light blue-grey lighten-1 btn col s12">
+						가계부 관리
+						<i class="material-icons right">event_available</i>
+					</a>
+					<a id="ledgerStat" href="#!" class="waves-effect waves-light blue-grey lighten-1 btn col s12">
+						가계부 통계
+						<i class="material-icons right">equalizer</i>
+					</a>
 				</div>
 			</li>
 			<li>

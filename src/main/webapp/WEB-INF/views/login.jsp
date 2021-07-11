@@ -64,28 +64,43 @@
 </body>
 
 <script type="text/javascript">
-	var loginForm = $("#loginForm");
-	$("#btnLogin").click(function() {
-		$.ajax({
-			url: "/login",
-			method: "post",
-			data: {
-				id: $("#id").val(),
-				pw: $("#pw").val()
-			},
-			success: function(res) {
-				loginForm.html("");
-				loginForm.append("<input type='hidden' name='no' value='"+ res.data.no +"'>");
-				loginForm.append("<input type='hidden' name='id' value='"+ res.data.id +"'>");
-				loginForm.append("<input type='hidden' name='name' value='"+ res.data.name +"'>");
-				loginForm.append("<input type='hidden' name='email' value='"+ res.data.email +"'>");
-				loginForm.attr("action", "/main");
-				loginForm.submit();
-			},
-			error: function(err) {
-				alert(err.responseJSON.message);
+	$(document).ready(function() {
+		var loginForm = $("#loginForm");
+		
+		$("#id").focus();
+		
+		$("#btnLogin").click(function() {
+			onLoginBtnClick();
+		})
+		
+		$("#pw").keyup(function() {
+			if (event.keyCode == 13) {
+				onLoginBtnClick();
 			}
 		})
+		
+		function onLoginBtnClick() {
+			$.ajax({
+				url: "/login",
+				method: "post",
+				data: {
+					id: $("#id").val(),
+					pw: $("#pw").val()
+				},
+				success: function(res) {
+					loginForm.html("");
+					loginForm.append("<input type='hidden' name='no' value='"+ res.data.no +"'>");
+					loginForm.append("<input type='hidden' name='id' value='"+ res.data.id +"'>");
+					loginForm.append("<input type='hidden' name='name' value='"+ res.data.name +"'>");
+					loginForm.append("<input type='hidden' name='email' value='"+ res.data.email +"'>");
+					loginForm.attr("action", "/main");
+					loginForm.submit();
+				},
+				error: function(err) {
+					alert(err.responseJSON.message);
+				}
+			})
+		}
 	})
 </script>
 </html>
