@@ -162,7 +162,7 @@
 			<br>
 			3. 검색 기능
 			<br>
-			4. 추가 기능 (디자인 완료)
+			4. 내역 추가 기능 (디자인 완료)
 			<br>
 			5. 상세 기능 - 목록에서 클릭하면 모달로 상세 띄우기 - 상세에 수정, 삭제 기능 추가
 			<br>			
@@ -174,7 +174,7 @@
 	<div id="addModal" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<h5>가계부 추가</h5>
+				<h5>가계부 등록</h5>
 			</div>
 			<div class="row">
 				<div class="col s2 offset-s3">
@@ -186,18 +186,18 @@
 			</div>
 			<div class="row">
 				<div class="col s2 offset-s3">
-					<h6>내용</h6>
-				</div>
-				<div class="col s4">
-					<input type="text" class="center-align" placeholder="내용 입력">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
 					<h6>금액</h6>
 				</div>
 				<div class="col s4">
 					<input type="number" min=0 class="center-align" placeholder="금액 입력">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s2 offset-s3">
+					<h6>내용</h6>
+				</div>
+				<div class="col s4">
+					<input type="text" class="center-align" placeholder="내용 입력">
 				</div>
 			</div>
 			<div class="row">
