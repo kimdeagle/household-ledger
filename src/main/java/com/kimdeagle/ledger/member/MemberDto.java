@@ -1,6 +1,6 @@
 package com.kimdeagle.ledger.member;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,11 +14,7 @@ public class MemberDto {
 	private String pw;
 	private String name;
 	private String email;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	private Timestamp registDate;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	private Timestamp updateDate;
+	private Date registDate;
+	private Date updateDate;
 	
 }

@@ -158,7 +158,7 @@
 					loginForm.append("<input type='hidden' name='id' value='"+ res.data.id +"'>");
 					loginForm.append("<input type='hidden' name='name' value='"+ res.data.name +"'>");
 					loginForm.append("<input type='hidden' name='email' value='"+ res.data.email +"'>");
-					loginForm.append("<input type='hidden' name='registDate' value='"+ res.data.registDate +"'>");
+					loginForm.append("<input type='hidden' name='registDate' value='"+ new Date(res.data.registDate) +"'>");
 					loginForm.attr("action", "/main");
 					loginForm.submit();
 				},

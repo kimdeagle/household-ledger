@@ -18,7 +18,9 @@
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <!-- jQuery -->
-<script src="js/jquery-1.12.4.min.js"></script>
+<!-- <script src="js/jquery-1.12.4.min.js"></script> -->
+<script src="js/jquery-3.6.0.min.js"></script>
+
 </head>
 <body class="grey lighten-5">
 <header>

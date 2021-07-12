@@ -23,9 +23,4 @@ public class MainController {
 		session.setAttribute("user", user);
 	}
 	
-	@GetMapping("/ledger")
-	public void ledger(Model model) {
-		model.addAttribute("title", "가계부 관리");
-	}
-	
 }

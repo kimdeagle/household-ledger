@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimdeagle.ledger.system.ledger.LedgerMapper">
+
+	<select id="getList" resultType="com.kimdeagle.ledger.system.ledger.LedgerDto">
+		SELECT
+			*
+		FROM
+			SY_LEDGER
+		WHERE
+			USER_NO = #{userNo}
+		ORDER BY
+			ADD_DATE ASC
+	</select>
+
+	<insert id="regist">
+		INSERT INTO SY_LEDGER
+			(
+				USER_NO,
+				ADD_DATE,
+				AMOUNT,
+				CONTENT,
+				IN_OUT,
+				CATEGORY,
+				ASSET
+			)
+		VALUES
+			(
+				#{userNo},
+				#{addDate},
+				#{amount},
+				#{content},
+				#{inOut},
+				#{category},
+				#{asset}
+			)
+	</insert>
+</mapper>

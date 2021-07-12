@@ -1,6 +1,6 @@
-package com.kimdeagle.ledger;
+package com.kimdeagle.ledger.system.ledger;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -11,9 +11,7 @@ public class LedgerDto {
 
 	private int no;
 	private int userNo;
-	
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-//	private Timestamp addDate;
+	private Date addDate;
 	private int amount;
 	private String content;
 	private String inOut;
