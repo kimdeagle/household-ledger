@@ -36,6 +36,10 @@
 		min-width: 500px;
 	}
 	
+	#in, #out {
+		display: none;
+	}
+	
 </style>
 	<div class="col s9">
 		<div class="row">
@@ -149,7 +153,7 @@
 		</div>
 		<div class="row">
 			<div class="col s11">
-				<a class="waves-effect waves-light btn-floating btn-large red modal-trigger right" href="#addModal">
+				<a href="#addModal" class="waves-effect waves-light btn-floating btn-large tooltipped light-blue modal-trigger right" data-position="top" data-tooltip="가계부 등록">
 					<i class="material-icons">add</i>
 				</a>
 			</div>
@@ -176,92 +180,127 @@
 			<div class="row">
 				<h5>가계부 등록</h5>
 			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>날짜</h6>
+			<form id="registForm" method="POST" action="/ledger">
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>날짜</h6>
+					</div>
+					<div class="col s4">
+						<input type="text" id="addDate" name="addDate" class="datepicker center-align" placeholder="날짜 선택">
+					</div>
 				</div>
-				<div class="col s4">
-					<input type="text" class="datepicker center-align" placeholder="날짜 선택">
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>금액</h6>
+					</div>
+					<div class="col s4">
+						<input type="number" id="amount" name="amount" class="center-align" min=0 placeholder="금액 입력">
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>금액</h6>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>내용</h6>
+					</div>
+					<div class="col s4">
+						<input type="text" id="content" name="content" class="center-align" placeholder="내용 입력">
+					</div>
 				</div>
-				<div class="col s4">
-					<input type="number" min=0 class="center-align" placeholder="금액 입력">
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>수입/지출</h6>
+					</div>
+					<div class="col s4">
+						<select id="inOut" name="inOut">
+							<option value="" disabled selected>수입/지출 선택</option>
+							<option value="in">수입</option>
+							<option value="out">지출</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>내용</h6>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>분류</h6>
+					</div>
+					<div id="in" class="col s4">
+						<select id="inCategory" name="category">
+							<option value="N" disabled="disabled" selected="selected">수입 선택</option>
+							<option value="월급">월급</option>
+							<option value="용돈">용돈</option>
+							<option value="부수입">부수입</option>
+							<option value="상여">상여</option>
+							<option value="이자">이자</option>
+							<option value="기타">기타</option>
+						</select>
+					</div>
+					<div id="out" class="col s4">
+						<select id="outCategory" name="category">
+							<option value="N" disabled selected>지출 선택</option>
+							<option value="식비">식비</option>
+							<option value="교통비">교통비</option>
+							<option value="쇼핑">쇼핑</option>
+							<option value="생활용품">생활용품</option>
+							<option value="기타">기타</option>
+						</select>
+					</div>
 				</div>
-				<div class="col s4">
-					<input type="text" class="center-align" placeholder="내용 입력">
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>자산</h6>
+					</div>
+					<div class="col s4">
+						<select id="asset" name="asset">
+							<option value="N" disabled selected>자산 선택</option>
+							<option value="현금">현금</option>
+							<option value="계좌">계좌</option>
+							<option value="카드">카드</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>수입/지출</h6>
-				</div>
-				<div class="col s4">
-					<select>
-						<option value="1">수입</option>
-						<option value="2">지출</option>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>분류</h6>
-				</div>
-				<div class="col s4">
-					<select>
-						<option value="1">월급</option>
-						<option value="2">용돈</option>
-						<option value="3">부수입</option>
-						<option value="4">상여</option>
-						<option value="5">이자</option>
-						<option value="6">기타</option>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s2 offset-s3">
-					<h6>자산</h6>
-				</div>
-				<div class="col s4">
-					<select>
-						<option value="1">현금</option>
-						<option value="2">계좌</option>
-						<option value="3">카드</option>
-					</select>
-				</div>
-			</div>
+			</form>
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class="waves-effect waves-green btn">등록</a>
-			<a href="#!" class="modal-close waves-effect waves-green btn">취소</a>
+			<a id="registBtn" class="waves-effect waves-light btn light-blue">등록</a>
+			<a class="modal-close waves-effect waves-light btn">취소</a>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
+		//session에 담긴 user
 		var user = "${user}";
+		
 		if (user === "") {
 			alert("로그인 후 이용해주세요.");
 			location.href = "/";
 		}
+		
+		//수입/지출 변경시
+		$("#inOut").change(function() {
+			if ($(this).val() == "in") {
+				$("#in").show();
+				$("#out").hide();
+			}
+			if ($(this).val() == "out") {
+				$("#in").hide();
+				$("#out").show();
+			}
+		})
+		
+		//가계부 등록 버튼 클릭
+		$("#registBtn").click(function() {
+			//가계부 등록 및 리스트 갱신
+			$("#registForm").submit();
+		})
+		
 	});
 
 	document.addEventListener('DOMContentLoaded', function() {
 		var datepicker = document.querySelectorAll('.datepicker');
 		var datepickerInstance = M.Datepicker.init(datepicker, {
-			format : 'yyyy-mm-dd',
-			maxDate : new Date(),
-			showMonthAfterYear : true,
-			showClearBtn : true,
-			
+			format: 'yyyy-mm-dd',
+			maxDate: new Date(),
+			showMonthAfterYear: true,
+			showClearBtn: true			
 		});
 		var dropdown = document.querySelectorAll('.dropdown-trigger');
 		var dropdownInstance = M.Dropdown.init(dropdown);
@@ -269,6 +308,8 @@
 		var selectInstance = M.FormSelect.init(select);
 		var modal = document.querySelectorAll('.modal');
 		var modalInstance = M.Modal.init(modal);
+	    var tooltip = document.querySelectorAll('.tooltipped');
+	    var tooltipInstance = M.Tooltip.init(tooltip);
 	});
 </script>
 </html>

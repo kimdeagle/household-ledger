@@ -10,3 +10,5 @@ spring:
     password: 1234
 
 mybatis:  mapper-locations: mappers/**/*.xml
+  configuration:    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
