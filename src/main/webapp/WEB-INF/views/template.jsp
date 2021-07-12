@@ -3,9 +3,8 @@
 <%@ include file="common/header.jsp" %>
 <%@ include file="common/lnb.jsp" %>
 
-	<div class="col s10">
+	<div class="col s9">
 		컨텐츠 공간
 	</div>
-</div>
-</body>
-</html>
+	
+<%@ include file="common/footer.jsp" %>

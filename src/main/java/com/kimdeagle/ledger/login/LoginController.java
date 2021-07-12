@@ -33,7 +33,7 @@ public class LoginController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "login";
+		return "redirect:/";
 	}
 	
 }

@@ -65,21 +65,86 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		var loginForm = $("#loginForm");
 		
-		$("#id").focus();
+		//get cookie
+		var id = getCookie('id');
 		
+		//id is not empty
+		if (id != "") {
+			$("#isRememberId").prop("checked", true);
+			$("input[name=id]").val(id);
+		}
+		
+		//login button click
+		$("#btnLogin").click(function() {
+			if ($("#isRememberId").prop("checked")) {
+				id = $("input[name=id]").val();
+				setCookie('id', id, 7);
+			} else {
+				deleteCookie('id');
+			}			
+		})
+		
+		//setCookie function
+		function setCookie(cookieName, value, exdays) {
+			var exdate = new Date();
+			
+			exdate.setDate(exdate.getDate() + exdays);
+			
+			var cookieValue = escape(value) + ((exdays == null) ? "" : ";expires=" + exdate.toGMTString());
+			
+			document.cookie = cookieName + "=" + cookieValue;
+		}
+		
+		//deleteCookie function
+		function deleteCookie(cookieName) {
+			var expireDate = new Date();
+			
+			expireDate.setDate(expireDate.getDate() - 1);
+			
+			document.cookie = cookieName + "=" + ";expires=" + expireDate.toGMTString();
+		}
+		
+		//getCookie function
+		function getCookie(cookieName) {
+			cookieName = cookieName + "=";
+			
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(cookieName);
+			var cookieValue = "";
+			
+			if (start != -1) {
+				start += cookieName.length;
+				var end = cookieData.indexOf(';', start);
+				if (end == -1) end = cookieData.length;
+				cookieValue = cookieData.substring(start, end);
+			}
+			
+			return unescape(cookieValue);
+		}	
+		
+		//focus
+		if ($("#id").val() == "") {
+			$("#id").focus();			
+		} else {
+			$("#pw").focus();
+		}
+		
+		//login
 		$("#btnLogin").click(function() {
 			onLoginBtnClick();
 		})
 		
+		//login
 		$("#pw").keyup(function() {
 			if (event.keyCode == 13) {
 				onLoginBtnClick();
 			}
 		})
 		
+		//onLoginBtnClick function
 		function onLoginBtnClick() {
+			var loginForm = $("#loginForm");
 			$.ajax({
 				url: "/login",
 				method: "post",
