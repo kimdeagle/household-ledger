@@ -11,7 +11,7 @@ public class Result {
 	private String message;
 	private Object data;
 	
-	public final static Result instance() {
+	public static Result instance() {
 		return new Result();
 	}
 	

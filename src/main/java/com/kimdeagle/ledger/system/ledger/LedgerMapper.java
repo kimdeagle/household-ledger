@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LedgerMapper {
 
-	List<LedgerDto> getList(int userNo);
+	List<LedgerDto> getList(String userNo);
 	
 	int regist(LedgerDto ledger);
+
+	List<LedgerSearchDto> getSearchList(LedgerSearchDto ledger);
 
 }

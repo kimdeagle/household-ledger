@@ -57,7 +57,9 @@
 	</div>
 	
 	<script type="text/javascript">
-		$("#ledger").click(function() {
-			$("#ledgerMenu").toggle();
+		$(document).ready(function() {
+			$("#ledger").click(function() {
+				$("#ledgerMenu").toggle();
+			})		
 		})
 	</script>

@@ -8,7 +8,7 @@
 		FROM
 			SY_LEDGER
 		WHERE
-			USER_NO = #{userNo}
+			USER_NO = ${userNo}
 		ORDER BY
 			ADD_DATE ASC
 	</select>
@@ -35,4 +35,33 @@
 				#{asset}
 			)
 	</insert>
+	
+	<select id="getSearchList" resultType="com.kimdeagle.ledger.system.ledger.LedgerDto">
+		SELECT
+			*
+		FROM
+			SY_LEDGER
+		WHERE
+			USER_NO = #{userNo}
+		<if test='inOut != ""'>
+			AND IN_OUT = #{inOut}
+		</if>
+		<if test='category != ""'>
+			AND CATEGORY = #{category}
+		</if>
+		<if test='asset != ""'>
+			AND ASSET = #{asset}
+		</if>
+		<if test='!isCheckAllDate'>
+			AND ADD_DATE BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test='!isCheckAllAmount'>
+			AND AMOUNT BETWEEN #{startAmount} AND #{endAmount}
+		</if>
+		<if test='keyword != ""'>
+			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		ORDER BY
+			ADD_DATE ASC
+	</select>
 </mapper>

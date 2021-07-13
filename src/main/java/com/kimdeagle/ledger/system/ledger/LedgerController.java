@@ -14,18 +14,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kimdeagle.ledger.member.MemberDto;
 import com.kimdeagle.ledger.util.Result;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/ledger")
+@Slf4j
 public class LedgerController {
 
 	@Autowired
 	private LedgerService ledgerService;
 	
 	@GetMapping("")
-	public String ledger(Model model, HttpSession session) {
+	public String ledger(Model model) {
 		model.addAttribute("title", "가계부 관리");
-		model.addAttribute("ledgerList", ledgerService.getList(((MemberDto)session.getAttribute("user")).getNo()));
+//		model.addAttribute("ledgerList", ledgerService.getList(((MemberDto)session.getAttribute("user")).getNo()));
 		return "ledger";
+	}
+	
+	@GetMapping("/list")
+	@ResponseBody
+	public ResponseEntity<Result> getList(String userNo) {
+		return ledgerService.getList(userNo);
 	}
 	
 	@PostMapping("")
@@ -35,6 +44,13 @@ public class LedgerController {
 		ledger.setUserNo(((MemberDto)session.getAttribute("user")).getNo());
 		
 		return ledgerService.regist(ledger);
+	}
+	
+	@GetMapping("/search")
+	@ResponseBody
+	public ResponseEntity<Result> search(LedgerSearchDto ledger) {
+		log.info("ledger : {}", ledger);
+		return ledgerService.getSearchList(ledger);
 	}
 	
 }
