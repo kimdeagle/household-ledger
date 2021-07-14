@@ -11,4 +11,15 @@
 			AND
 			PW = #{pw}
 	</select>
+	
+	<insert id="setLoginDate" parameterType="com.kimdeagle.ledger.member.MemberDto">
+		<selectKey keyProperty="lastLoginDate" resultType="java.util.Date" order="AFTER">
+			SELECT MAX(LOGIN_DATE) FROM SY_LOGIN_HISTORY WHERE USER_NO = ${no}
+		</selectKey>
+		
+		INSERT INTO SY_LOGIN_HISTORY
+			(USER_NO)
+		VALUES
+			(${no})
+	</insert>
 </mapper>

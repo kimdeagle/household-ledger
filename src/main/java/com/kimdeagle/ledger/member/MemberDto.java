@@ -17,4 +17,5 @@ public class MemberDto {
 	private Date registDate;
 	private Date updateDate;
 	
+	private Date lastLoginDate;
 }

@@ -28,6 +28,7 @@
 		<div class="nav-wrapper">
 			<a href="/main" class="brand-logo center">Kimdeagle Project</a>
 			<ul class="right hide-on-med-and-down">
+				<li>로그인 시간 : <fmt:formatDate value="${user.lastLoginDate}" pattern="yyyy-MM-dd HH:mm:ss" /></li>
 				<li><a class="waves-effect waves-light grey darken-1 btn" href="/logout">로그아웃</a></li>
 			</ul>
 		</div>
