@@ -10,7 +10,7 @@
 		WHERE
 			USER_NO = ${userNo}
 		ORDER BY
-			ADD_DATE ASC
+			ADD_DATE DESC
 	</select>
 
 	<insert id="regist">
@@ -62,6 +62,27 @@
 			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
 		</if>
 		ORDER BY
-			ADD_DATE ASC
+			ADD_DATE DESC
 	</select>
+	
+	<update id="update">
+		UPDATE
+			SY_LEDGER
+		SET
+			ADD_DATE = #{addDate},
+			AMOUNT = #{amount},
+			CONTENT = #{content},
+			IN_OUT = #{inOut},
+			CATEGORY = #{category},
+			ASSET = #{asset}
+		WHERE
+			NO = #{no}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM
+			SY_LEDGER
+		WHERE
+			NO = #{no}
+	</delete>
 </mapper>

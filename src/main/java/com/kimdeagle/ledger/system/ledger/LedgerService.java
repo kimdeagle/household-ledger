@@ -1,5 +1,9 @@
 package com.kimdeagle.ledger.system.ledger;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +25,14 @@ public class LedgerService {
 		
 		Result result = Result.instance();
 		
-		result.setData(ledgerMapper.getList(userNo));
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		List<LedgerDto> list = ledgerMapper.getList(userNo);
+		
+		resultMap.put("list", list);
+		resultMap.put("count", list.size());
+		
+		result.setData(resultMap);
 		
 		return ResponseEntity.ok(result.success());
 		
@@ -47,14 +58,46 @@ public class LedgerService {
 		
 		Result result = Result.instance();
 		
+		Map<String, Object> resultMap = new HashMap<>();
+		
 		//set category
 		if (StringUtils.equals(ledger.getInOut(), "")) ledger.setCategory(ledger.getAllCategory());
 		if (StringUtils.equals(ledger.getInOut(), "in")) ledger.setCategory(ledger.getInCategory());
 		if (StringUtils.equals(ledger.getInOut(), "out")) ledger.setCategory(ledger.getOutCategory());
 		
-		result.setData(ledgerMapper.getSearchList(ledger));
+		List<LedgerDto> list = ledgerMapper.getSearchList(ledger);
+		
+		resultMap.put("list", list);
+		resultMap.put("count", list.size());
+		
+		result.setData(resultMap);
 		
 		return ResponseEntity.ok(result.success());
+	}
+
+	public ResponseEntity<Result> update(LedgerDto ledger) {
+		
+		Result result = Result.instance();
+		
+		//set category
+		if (StringUtils.equals(ledger.getInOut(), "in")) ledger.setCategory(ledger.getInCategory());
+		if (StringUtils.equals(ledger.getInOut(), "out")) ledger.setCategory(ledger.getOutCategory());
+		
+		if (ledgerMapper.update(ledger) != 1) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result.fail("수정 실패"));
+		}
+		
+		return ResponseEntity.ok(result.success("수정 성공"));
+	}
+
+	public ResponseEntity<Result> delete(String no) {
+		Result result = Result.instance();
+		
+		if (ledgerMapper.delete(no) != 1) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result.fail("삭제 실패"));
+		}
+		
+		return ResponseEntity.ok(result.success("삭제 성공"));
 	}
 
 }

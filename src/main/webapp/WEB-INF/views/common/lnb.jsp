@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<style>
-.toast {
-	background-color: #039be5;
-}
-</style>
 <div class="row">
 	<div id ="lnb" class="col s2">
 		<ul>
@@ -35,20 +30,20 @@
 						가계부 관리
 						<i class="material-icons right">event_available</i>
 					</a>
-					<a id="ledgerStat" class="waves-effect waves-light blue-grey lighten-1 btn col s12">
+					<a id="ledgerStat" class="waves-effect waves-light blue-grey lighten-1 btn col s12" onclick="alert('메뉴 준비중');">
 						가계부 통계
 						<i class="material-icons right">equalizer</i>
 					</a>
 				</div>
 			</li>
 			<li>
-				<a class="waves-effect waves-light blue-grey btn-large col s12" onclick="M.toast({html: '메뉴 준비중', classes: 'rounded'})">
+				<a class="waves-effect waves-light blue-grey btn-large col s12" onclick="alert('메뉴 준비중');">
 					메뉴2
 					<i class="material-icons right">arrow_drop_down</i>
 				</a>
 			</li>
 			<li>
-				<a class="waves-effect waves-light blue-grey btn-large col s12">
+				<a class="waves-effect waves-light blue-grey btn-large col s12" onclick="alert('메뉴 준비중');">
 					메뉴3
 					<i class="material-icons right">arrow_drop_down</i>
 				</a>

@@ -11,6 +11,10 @@ public interface LedgerMapper {
 	
 	int regist(LedgerDto ledger);
 
-	List<LedgerSearchDto> getSearchList(LedgerSearchDto ledger);
+	List<LedgerDto> getSearchList(LedgerSearchDto ledger);
+
+	int update(LedgerDto ledger);
+
+	int delete(String no);
 
 }

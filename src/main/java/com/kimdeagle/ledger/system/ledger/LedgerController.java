@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -49,8 +52,19 @@ public class LedgerController {
 	@GetMapping("/search")
 	@ResponseBody
 	public ResponseEntity<Result> search(LedgerSearchDto ledger) {
-		log.info("ledger : {}", ledger);
 		return ledgerService.getSearchList(ledger);
+	}
+	
+	@PutMapping("")
+	@ResponseBody
+	public ResponseEntity<Result> update(LedgerDto ledger) {
+		return ledgerService.update(ledger);
+	}
+	
+	@DeleteMapping("/{no}")
+	@ResponseBody
+	public ResponseEntity<Result> delete(@PathVariable String no) {
+		return ledgerService.delete(no);
 	}
 	
 }

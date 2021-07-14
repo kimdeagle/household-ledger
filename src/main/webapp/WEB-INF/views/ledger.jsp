@@ -7,14 +7,16 @@
 <style>
 	#searchForm .s5 .row .s3,
 	#searchForm .s7 .row .s2,
-	#registModal .row .s2 {
+	#registForm .row .s2,
+	#viewForm .row .s2 {
 		background-color: #e8f5e9;
 		height: 3rem;
 	}
 	
 	#searchForm .s5 .row .s3 h6,
 	#searchForm .s7 .row .s2 h6,
-	#registModal .row .s2 h6 {
+	#registForm .row .s2 h6,
+	#viewForm .row .s2 h6 {
 		font-size: 1rem;
 		line-height: inherit;
 		text-align: center;	
@@ -54,13 +56,29 @@
 		text-align: center;
 	}
 	
+	.content {
+		cursor: pointer;
+	}
+	
+	#ledgerListResetBtn {
+		display: none;
+	}
+	
+	.small-text {
+		font-size: 1.2rem;
+	}
+	
 </style>
 	<div class="col s9">
 		<div class="row">
 			<h4><i class="material-icons">event_note</i> 가계부 관리</h4>				
 		</div>
 		<div class="row">
-			<h5><i class="material-icons">search</i> 가계부 검색</h5>
+			<h5>
+				<i class="material-icons">search</i>
+				가계부 검색
+				<a id="searchFormResetBtn" class="btn-floating btn-small waves-effect waves-light blue-grey darken-1 tooltipped" data-position="right" data-tooltip="검색 조건 초기화"><i class="material-icons">replay</i></a>
+			</h5>
 		</div>
 		<div class="row">
 			<form id="searchForm" name="searchForm">
@@ -194,7 +212,12 @@
 		</div>
 		<div class="row">
 			<div class="col s10">
-				<h5><i class="material-icons">dvr</i> 가계부 목록</h5>
+				<h5>
+					<i class="material-icons">dvr</i>
+					가계부 목록
+					<span id="count" class="small-text"></span>
+					<a id="ledgerListResetBtn" class="btn-floating btn-small waves-effect waves-light blue-grey darken-1 tooltipped" data-position="right" data-tooltip="검색 목록 초기화"><i class="material-icons">replay</i></a>
+				</h5>
 			</div>
 			<div class="col s2">
 				<a href="#registModal" class="waves-effect waves-light btn-floating btn-large tooltipped light-blue modal-trigger right" data-position="top" data-tooltip="가계부 등록">
@@ -206,12 +229,12 @@
 			<table id="ledgerListTable" class="responsive-table highlight">
 				<thead>
 					<tr>
-						<th>날짜</th>
-						<th>내용</th>
-						<th>수입/지출</th>
-						<th>분류</th>
-						<th>금액</th>
-						<th>자산</th>
+						<th width="20%">날짜</th>
+						<th width="25%">내용</th>
+						<th width="13%">수입/지출</th>
+						<th width="13%">분류</th>
+						<th width="17%">금액</th>
+						<th width="12%">자산</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -219,14 +242,8 @@
 			</table>
 		</div>
 		<div class="row">
-			<h5>2021.07.12 이후 예정사항</h5>
-			1. 검색 기간 유효성 검사(시작날짜, 종료날짜 비교해서 예외처리 vs 시작날짜 선택 시 종료날짜 >= 시작날짜)
-			<br>
-			2. 검색 -> ajax -> 목록 갱신
-			<br>
-			3. 상세 기능 - 목록에서 클릭하면 모달로 상세 띄우기 - 상세에 수정, 삭제 기능 추가
-			<br>			
-			4. 페이지네이션
+			<h5>2021.07.14 이후 예정사항</h5>		
+			1. 페이지네이션
 		</div>
 	</div>
 	
@@ -234,7 +251,7 @@
 	<div id="registModal" class="modal">
 		<div class="modal-content">
 			<div class="row">
-				<h5>가계부 등록</h5>
+				<h5><i class="material-icons">add_to_queue</i> 가계부 등록</h5>
 			</div>
 			<form id="registForm">
 				<div class="row">
@@ -316,7 +333,99 @@
 		</div>
 		<div class="modal-footer">
 			<a id="registBtn" class="waves-effect waves-light btn light-blue">등록</a>
-			<a id="registCancelBtn" class="modal-close waves-effect waves-light btn">취소</a>
+			<a id="cancelBtn" class="modal-close waves-effect waves-light btn blue-grey darken-1">취소</a>
+		</div>
+	</div>
+	
+	<!-- Modal Structure -->
+	<div id="viewModal" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<h5><i class="material-icons">laptop_mac</i> 가계부 조회</h5>
+			</div>
+			<form id="viewForm">
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>날짜</h6>
+					</div>
+					<div class="col s4">
+						<input type="hidden" id="no" name="no">
+						<input type="text" id="addDate" name="addDate" class="datepicker center-align" placeholder="날짜 선택">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>금액</h6>
+					</div>
+					<div class="col s4">
+						<input type="text" id="amount" name="amount" class="center-align" min=0 placeholder="금액 입력">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>내용</h6>
+					</div>
+					<div class="col s4">
+						<input type="text" id="content" name="content" class="center-align" placeholder="내용 입력">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>수입/지출</h6>
+					</div>
+					<div class="col s4">
+						<select id="inOut" name="inOut">
+							<option value="N" disabled>수입/지출 선택</option>
+							<option value="in">수입</option>
+							<option value="out">지출</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>분류</h6>
+					</div>
+					<div id="in" class="col s4">
+						<select id="inCategory" name="inCategory">
+							<option value="N" disabled>수입 선택</option>
+							<option value="월급">월급</option>
+							<option value="용돈">용돈</option>
+							<option value="부수입">부수입</option>
+							<option value="상여">상여</option>
+							<option value="이자">이자</option>
+							<option value="기타">기타</option>
+						</select>
+					</div>
+					<div id="out" class="col s4">
+						<select id="outCategory" name="outCategory">
+							<option value="N" disabled>지출 선택</option>
+							<option value="식비">식비</option>
+							<option value="교통비">교통비</option>
+							<option value="쇼핑">쇼핑</option>
+							<option value="생활용품">생활용품</option>
+							<option value="기타">기타</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s2 offset-s3">
+						<h6>자산</h6>
+					</div>
+					<div class="col s4">
+						<select id="asset" name="asset">
+							<option value="N" disabled>자산 선택</option>
+							<option value="현금">현금</option>
+							<option value="계좌">계좌</option>
+							<option value="카드">카드</option>
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<a id="updateBtn" class="waves-effect waves-light btn light-blue">저장</a>
+			<a id="deleteBtn" class="waves-effect waves-light btn red">삭제</a>
+			<a id="cancelBtn" class="modal-close waves-effect waves-light btn blue-grey darken-1">취소</a>
 		</div>
 	</div>
 </body>
@@ -329,13 +438,18 @@
 			maxDate: new Date(),
 			showMonthAfterYear: true,
 			showClearBtn: true
-		});
+		});		
 		var dropdown = document.querySelectorAll('.dropdown-trigger');
 		var dropdownInstances = M.Dropdown.init(dropdown);
 		var select = document.querySelectorAll('select');
 		var selectInstances = M.FormSelect.init(select);
 		var modal = document.querySelectorAll(".modal");
 		var modalInstances = M.Modal.init(modal);
+		var registModal = M.Modal.init($("#registModal"), {
+			onCloseEnd: function() {
+				$("#registForm")[0].reset();
+			}
+		});
 	    var tooltip = document.querySelectorAll('.tooltipped');
 	    var tooltipInstances = M.Tooltip.init(tooltip);
 	});
@@ -346,10 +460,12 @@
 		
 		//session에 담긴 user
 		var user = "${user}";
+		//시작, 종료날짜 데이트피커
+		var startDatepicker = M.Datepicker.getInstance($("#startDate"));
+		var endDatepicker = M.Datepicker.getInstance($("#endDate"));
 		//가계부 등록 모달
 		var registModal = M.Modal.getInstance($("#registModal"));
-		//금액(registForm)
-		var amount = 0;
+		var viewModal = M.Modal.getInstance($("#viewModal"));
 		//시작 금액(searchForm)
 		var startAmount = 0;
 		//종료 금액(searchForm)
@@ -369,70 +485,74 @@
 		/* Exception Handler End */
 		
 		
-		/* Method Start */
+		/* init Method Start */
 		
 		//가계부 목록 조회
 		getLedgerList();
 		
-		/* Method End */
+		/* init Method End */
 		
 		
 		/* Event Start */
 		
 		//금액 -> 세자리 콤마 + "원"
-		$("#amount").focusout(function() {
-			amount = parseInt($("#amount").val());
-			$("#amount").prop("type", "text");
-			$("#amount").val(setComma(amount) + "원");
+		$("#registForm #amount").focusout(function() {
+			setCommaAndWon($(this));
+		})
+		
+		$("#viewForm #amount").focusout(function() {
+			setCommaAndWon($(this));
 		})
 		
 		$("#startAmount").focusout(function() {
-			startAmount = parseInt($("#startAmount").val());
+			startAmount = parseInt($(this).val());
 			if (endAmount !== 0) {
 				if (startAmount > endAmount) {
 					alert("최소 금액이 최대 금액보다 클 수 없습니다.");
 					startAmount = 0;
-					$("#startAmount").val(startAmount);
-					$("#startAmount").focus();
+					$(this).val(startAmount);
+					$(this).focus();
 					return;
 				}				
 			}
-			$("#startAmount").prop("type", "text");
-			$("#startAmount").val(setComma(startAmount) + "원");
+			$(this).prop("type", "text");
+			setCommaAndWon($(this));
 		})
 		
 		$("#endAmount").focusout(function() {
-			endAmount = parseInt($("#endAmount").val());
+			endAmount = parseInt($(this).val());
 			if (endAmount !== 0) {
 				if (startAmount > endAmount) {
 					alert("최대 금액이 최소 금액보다 작을 수 없습니다.");
 					endAmount = 0;
-					$("#endAmount").val(endAmount);
-					$("#endAmount").focus();
+					$(this).val(endAmount);
+					$(this).focus();
 					return;
 				}				
 			}
-			$("#endAmount").prop("type", "text");
-			$("#endAmount").val(setComma(endAmount) + "원");
+			$(this).prop("type", "text");
+			setCommaAndWon($(this));
+		})
+	
+		//금액 원래대로
+		$("#registForm #amount").focusin(function() {
+			getOriginAmount($(this));
+			$(this).select();
 		})
 		
-		//금액 원래대로
-		$("#amount").focusin(function() {
-			$("#amount").val(amount);
-			$("#amount").prop("type", "number");
-			$("#amount").select();
+		$("#viewForm #amount").focusin(function() {
+			getOriginAmount($(this));
+			$(this).select();
 		})
 		
 		$("#startAmount").focusin(function() {
-			$("#startAmount").val(startAmount);
-			$("#startAmount").prop("type", "number");
-			$("#startAmount").select();
+			getOriginAmount($(this));
+			$(this).select();
 		})
 		
 		$("#endAmount").focusin(function() {
-			$("#endAmount").val(endAmount);
-			$("#endAmount").prop("type", "number");
-			$("#endAmount").select();
+			getOriginAmount($(this));
+			$(this).select();
 		})
 		
 		//가계부 검색 -> 수입/지출 변경시
@@ -466,28 +586,55 @@
 			}
 		})
 		
-		//가계부 등록 모달 -> 취소 버튼 클릭
-		$("#registCancelBtn").click(function() {
-			$("#registForm")[0].reset();
+		//가계부 조회 모달 -> 수입/지출 변경시
+		$("#viewForm #inOut").change(function() {
+			if ($(this).val() == "in") {
+				$("#viewForm #in").show();
+				$("#viewForm #out").hide();
+			}
+			if ($(this).val() == "out") {
+				$("#viewForm #in").hide();
+				$("#viewForm #out").show();
+			}
 		})
 		
 		//가계부 등록 모달 -> 등록 버튼 클릭
 		$("#registBtn").click(function() {
 			//String -> Date
-			$("#addDate").val(new Date($("#addDate").val()));
+			$("#registForm #addDate").val(convertStringToDate($("#registForm #addDate").val()));
 			
 			//String -> Integer
-			$("#amount").val(amount);
+			getOriginAmount($("#registForm #amount"));
 			
 			//registForm data formatting
 			var queryString = $("#registForm").serialize();
 			
 			registLedger(queryString);
 		});
+		
+		//가계부 조회 모달 -> 수정 버튼 클릭
+		$("#updateBtn").click(function() {
+			//String -> Date
+			$("#viewForm #addDate").val(convertStringToDate($("#viewForm #addDate").val()));
+			
+			//String -> Integer
+			getOriginAmount($("#viewForm #amount"));
+			
+			//viewForm data formatting
+			var queryString = $("#viewForm").serialize();
+			
+			updateLedger(queryString);
+		})
+		
+		//가계부 조회 모달 -> 삭제 버튼 클릭
+		$("#deleteBtn").click(function() {
+			if (confirm('삭제하시겠습니까?')) {
+				deleteLedger($("#viewForm #no").val());				
+			}
+		})
 
 		//검색 버튼 클릭
 		$("#searchBtn").click(function() {
-
 			//검색 기간 - 전체 선택 아닌 경우
 			if (!$("#allDateCheckbox").prop("checked")) {
 				//기간 선택 안한 경우
@@ -516,11 +663,30 @@
 			
 			getSearchLedgerList(queryString);
 			
+			$("#searchFormResetBtn").css("display", "inline-block");
+			$("#ledgerListResetBtn").css("display", "inline-block");
+			
+		});
+		
+		//search form reset
+		$("#searchFormResetBtn").click(function() {
+			searchFormReset();
+		})
+		
+		//ledger list reset
+		$("#ledgerListResetBtn").click(function() {
+			getLedgerList();
+			$(this).hide();
 		})
 		
 		//검색 기간 전체 버튼 클릭
 		$("#allDateBtn").click(function() {
 			if ($("#allDateCheckbox").prop("checked")) {
+				M.toast({
+					html: '전체 검색 기간 OFF',
+					displayLength: 2000,
+					classes: 'rounded grey darken-2'
+				});
 				//기존 체크O -> 체크X
 				$("#allDateCheckbox").removeAttr("checked");
 				//remove disabled
@@ -530,6 +696,11 @@
 				$(this).addClass("grey darken-2");
 				$(this).removeClass("indigo darken-3");
 			} else {
+				M.toast({
+					html: '전체 검색 기간 ON',
+					displayLength: 2000,
+					classes: 'rounded indigo darken-3'
+				});
 				//기존 체크X -> 체크O
 				$("#allDateCheckbox").attr("checked", true);
 				//disabled
@@ -544,6 +715,11 @@
 		//금액 범위 전체 버튼 클릭
 		$("#allAmountBtn").click(function() {
 			if ($("#allAmountCheckbox").prop("checked")) {
+				M.toast({
+					html: '전체 금액 범위 OFF',
+					displayLength: 2000,
+					classes: 'rounded grey darken-2'
+				});
 				//기존 체크O -> 체크X
 				$("#allAmountCheckbox").removeAttr("checked");
 				//remove disabled
@@ -553,6 +729,11 @@
 				$(this).addClass("grey darken-2");
 				$(this).removeClass("indigo darken-3");
 			} else {
+				M.toast({
+					html: '전체 금액 범위 ON',
+					displayLength: 2000,
+					classes: 'rounded indigo darken-3'
+				});
 				//기존 체크X -> 체크O
 				$("#allAmountCheckbox").attr("checked", true);
 				//disabled
@@ -564,6 +745,54 @@
 			}
 		})
 		
+		//가계부 목록에서 내용 클릭
+		$(document).on("click", ".content", function() {
+			//text 가져오기
+			var no = $(this).parent().prev().prev().val();
+			var addDate = $(this).parent().prev().text();
+			var content = $(this).text();
+			var inOut = $(this).parent().next().text();
+			var category = $(this).parent().next().next().text();
+			var amount = $(this).parent().next().next().next().text();
+			var asset = $(this).parent().next().next().next().next().text();
+			
+			//insert value viewForm
+			$("#viewForm #no").val(no);
+			$("#viewForm #addDate").val(addDate);
+			$("#viewForm #amount").val(amount);
+			$("#viewForm #content").val(content);
+			$("#viewForm .row:nth-child(4) input").val(inOut);
+			if (inOut == '수입') {
+				$("#viewForm #inOut option[value=in]").attr("selected", true);
+				$("#viewForm #inCategory option[value="+ category +"]").attr("selected", true);
+				$("#viewForm #in").show();
+				$("#viewForm #out").hide();
+			} else {
+				$("#viewForm #inOut option[value=out]").attr("selected", true);
+				$("#viewForm #outCategory option[value="+ category +"]").attr("selected", true);
+				$("#viewForm #in").hide();
+				$("#viewForm #out").show();
+			}
+			$("#viewForm .row:nth-child(5) input").val(category);
+			
+			$("#viewForm .row:nth-child(6) input").val(asset);
+			$("#viewForm #asset option[value="+ asset +"]").attr("selected", true);
+			
+			viewModal.open();
+		})
+		
+		//시작날짜 최대날짜를 종료날짜로 변경
+		$("#startDate").focusin(function() {
+			if ($("#endDate").val() != '') {
+				startDatepicker.options.maxDate = endDatepicker.date;				
+			}
+		})
+		
+		//종료날짜 최소날짜를 시작날짜로 변경
+		$("#endDate").focusin(function() {
+			endDatepicker.options.minDate = startDatepicker.date;
+		})
+		
 		/* Event End */
 		
 		
@@ -572,7 +801,7 @@
 		//가계부 등록 Function
 		function registLedger(queryString) {
 			$.ajax({
-				type: "post",
+				method: "post",
 				url: "/ledger",
 				data: queryString,
 				success: function(res) {
@@ -593,6 +822,66 @@
 			})
 		}
 		
+		//가계부 수정 Function
+		function updateLedger(queryString) {
+			$.ajax({
+				method: "put",
+				url: "/ledger",
+				data: queryString,
+				success: function(res) {
+					//alert
+					alert(res.message);
+					//reset data and getLedgerList
+					$("#ledgerListTable tbody").html("");
+					if ($("#ledgerListResetBtn").css("display") != "none") {
+						getSearchLedgerList($("#searchForm").serialize());
+					} else {
+						getLedgerList();						
+					}
+					//close viewModal
+					viewModal.close();
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			})
+		}
+		
+		//가계부 삭제 Function
+		function deleteLedger(ledgerNo) {
+			$.ajax({
+				method: "delete",
+				url: "/ledger/" + ledgerNo,
+				success: function(res) {
+					//alert
+					alert(res.message);
+					//reset data and getLedgerList
+					$("#ledgerListTable tbody").html("");
+					if ($("#ledgerListResetBtn").css("display") != "none") {
+						getSearchLedgerList($("#searchForm").serialize());
+					} else {
+						getLedgerList();						
+					}
+					//close viewModal
+					viewModal.close();
+				},
+				error: function(err) {
+					console.log(err);
+				}
+			})
+		}
+		
+		//searchForm reset Function
+		function searchFormReset() {
+			$("#searchForm")[0].reset();
+			$("#allDateCheckbox").removeAttr("checked");
+			$("#allAmountCheckbox").removeAttr("checked");
+			$("#allDateBtn").addClass("grey darken-2");
+			$("#allDateBtn").removeClass("indigo darken-3");
+			$("#allAmountBtn").addClass("grey darken-2");
+			$("#allAmountBtn").removeClass("indigo darken-3");
+		}
+		
 		//검색 결과 조회 Function
 		function getSearchLedgerList(queryString) {
 			
@@ -601,19 +890,12 @@
 				url: "/ledger/search?userNo=${user.no}",
 				data: queryString,
 				success: function(res) {
-					//reset data
+					//reset ledger list
 					$("#ledgerListTable tbody").html("");
 					
-					//searchForm Data and button reset
-					$("#searchForm")[0].reset();
-					$("#allDateCheckbox").removeAttr("checked");
-					$("#allAmountCheckbox").removeAttr("checked");
-					$("#allDateBtn").addClass("grey darken-2");
-					$("#allDateBtn").removeClass("indigo darken-3");
-					$("#allAmountBtn").addClass("grey darken-2");
-					$("#allAmountBtn").removeClass("indigo darken-3");
-					
-					appendLedgerListTable(res.data);
+					appendLedgerListTable(res.data.list);
+					var str = "(검색 : "+ res.data.count +"건)";
+					$("#count").html(str);
 				},
 				error: function(err) {
 					console.log(err);
@@ -627,7 +909,9 @@
 				method: "get",
 				url: "/ledger/list?userNo=${user.no}",
 				success: function(res) {
-					appendLedgerListTable(res.data);
+					appendLedgerListTable(res.data.list);
+					var str = "(전체 : "+ res.data.count +"건)";
+					$("#count").html(str);
 				},
 				error: function(err) {
 					console.log(err);
@@ -635,8 +919,8 @@
 			})
 		}
 		
-		//날짜 형식 변경 Function
-		function setFormatDate(originDate) {
+		//Date -> String Function
+		function convertDateToString(originDate) {
 			var year = originDate.getFullYear();
 			var month = originDate.getMonth() + 1;
 			month = month >= 10 ? month : "0" + month;
@@ -646,12 +930,22 @@
 			return year + "-" + month + "-" + date;
 		}
 		
+		//String -> Date Function
+		function convertStringToDate(originString) {
+			return new Date(originString);
+		}
+		
 		//가계부 목록 테이블에 append Function
 		function appendLedgerListTable(ledgerList) {
+			//조회 결과가 없을 경우
+			if (ledgerList.length == 0) {
+				$("#ledgerListTable tbody").append("<tr><td colspan=6>조회 결과가 없습니다.</td></tr>");
+				return;
+			}
 			
 			ledgerList.forEach(function(ledger, index) {
 				//날짜 형식 변경 Date -> String (yyyy-MM-dd)
-				ledger.addDate = setFormatDate(new Date(ledger.addDate));
+				ledger.addDate = convertDateToString(new Date(ledger.addDate));
 				//수입/지출 텍스트 변경
 				ledger.inOut = ledger.inOut == 'in' ? '수입' : '지출';
 				//금액 콤마 + "원"
@@ -660,8 +954,9 @@
 				var str = "";
 				
 				str += "<tr>";
+				str += "<input type='hidden' value='"+ ledger.no +"'>";
 				str += "<td>" + ledger.addDate + "</td>";
-				str += "<td><a href='#!'>" + ledger.content + "</a></td>";
+				str += "<td><a class='content'>" + ledger.content + "</a></td>";
 				str += "<td>" + ledger.inOut + "</td>";
 				str += "<td>" + ledger.category + "</td>";
 				str += "<td>" + ledger.amount + "</td>";
@@ -672,9 +967,21 @@
 			})	
 		}
 		
-		//세자리 콤마 Function
-		function setComma(num) {
-			return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+		//세자리 콤마 + "원" Function
+		function setCommaAndWon(target) {
+			if (target.val() != "") {
+				target.val(parseInt(target.val()));
+				target.attr("type", "text");
+				target.val(target.val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + "원");				
+			}
+		}
+		
+		//원본 금액 조회 Function
+		function getOriginAmount(target) {
+			if (target.val() != "") {
+				target.val(target.val().replaceAll(",", "").replace("원", ""));
+				target.attr("type", "number");
+			}
 		}
 		
 		/* Function List End */
