@@ -766,6 +766,9 @@
 			var amount = $(this).parent().next().next().next().text();
 			var asset = $(this).parent().next().next().next().next().text();
 			
+			//number -> text
+			$("#viewForm #amount").attr("type", "text");
+			
 			//insert value viewForm
 			$("#viewForm #no").val(no);
 			$("#viewForm #addDate").val(addDate);

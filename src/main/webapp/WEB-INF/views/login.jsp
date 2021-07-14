@@ -75,16 +75,6 @@
 			$("input[name=id]").val(id);
 		}
 		
-		//login button click
-		$("#btnLogin").click(function() {
-			if ($("#isRememberId").prop("checked")) {
-				id = $("input[name=id]").val();
-				setCookie('id', id, 7);
-			} else {
-				deleteCookie('id');
-			}			
-		})
-		
 		//setCookie function
 		function setCookie(cookieName, value, exdays) {
 			var exdate = new Date();
@@ -132,12 +122,40 @@
 		
 		//login
 		$("#btnLogin").click(function() {
+			if ($("#id").val() == "") {
+				alert("아이디를 입력해주세요.");
+				return;
+			}
+			if ($("#pw").val() == "") {
+				alert("비밀번호를 입력해주세요.");
+				return;
+			}
+			if ($("#isRememberId").prop("checked")) {
+				id = $("input[name=id]").val();
+				setCookie('id', id, 7);
+			} else {
+				deleteCookie('id');
+			}
 			onLoginBtnClick();
 		})
 		
 		//login
 		$("#pw").keyup(function() {
 			if (event.keyCode == 13) {
+				if ($("#id").val() == "") {
+					alert("아이디를 입력해주세요.");
+					return;
+				}
+				if ($("#pw").val() == "") {
+					alert("비밀번호를 입력해주세요.");
+					return;
+				}
+				if ($("#isRememberId").prop("checked")) {
+					id = $("input[name=id]").val();
+					setCookie('id', id, 7);
+				} else {
+					deleteCookie('id');
+				}
 				onLoginBtnClick();
 			}
 		})
