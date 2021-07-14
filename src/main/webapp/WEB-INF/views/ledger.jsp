@@ -643,8 +643,7 @@
 			}
 		})
 
-		//검색 버튼 클릭
-		$("#searchBtn").click(function() {
+		function search() {
 			//검색 기간 - 전체 선택 아닌 경우
 			if (!$("#allDateCheckbox").prop("checked")) {
 				//기간 선택 안한 경우
@@ -675,8 +674,17 @@
 			
 			$("#searchFormResetBtn").css("display", "inline-block");
 			$("#ledgerListResetBtn").css("display", "inline-block");
-			
+		}
+		
+		//검색 버튼 클릭
+		$("#searchBtn").click(function() {
+			search();
 		});
+		$("#keyword").keyup(function() {
+			if (event.keyCode == 13) {
+				search();
+			}
+		})
 		
 		//search form reset
 		$("#searchFormResetBtn").click(function() {
@@ -685,6 +693,7 @@
 		
 		//ledger list reset
 		$("#ledgerListResetBtn").click(function() {
+			$("#ledgerListTable tbody").html("");
 			getLedgerList();
 			$(this).hide();
 		})
@@ -804,6 +813,14 @@
 		//종료날짜 최소날짜를 시작날짜로 변경
 		$("#endDate").focusin(function() {
 			endDatepicker.options.minDate = startDatepicker.date;
+		})
+		
+		//20자 까지만 입력
+		$("#content").keyup(function() {
+			if ($(this).val().length > 20) {
+				alert("20자 이내로 작성할 수 있습니다.");
+				$(this).val($(this).val().substring(0, 20));
+			}
 		})
 		
 		/* Event End */
