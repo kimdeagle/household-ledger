@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class LoginHistoryDto {
-
+	
 	private String userNo;
 	private Date loginDate;
 	

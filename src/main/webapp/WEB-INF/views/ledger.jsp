@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="common/header.jsp" %>
@@ -22,13 +21,12 @@
 		text-align: center;	
 	}
 	
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-	  -webkit-appearance: none;
-	  margin: 0;
+	#ledgerListTable th {
+		text-align: center;
+		background-color: #e8f5e9;
 	}
 	
-	table th {
+	#ledgerListTable td {
 		text-align: center;
 	}
 	
@@ -36,24 +34,8 @@
 		background-color: rgba(222, 222, 222, 0.5);
 	}
 	
-	.select-dropdown {
-		text-align: center;
-	}
-	
-	.modal {
-		min-width: 500px;
-	}
-	
 	#in, #out {
 		display: none;
-	}
-	
-	#ledgerListTable th {
-		background-color: #e8f5e9;
-	}
-	
-	#ledgerListTable td {
-		text-align: center;
 	}
 	
 	.content {
@@ -304,9 +286,14 @@
 					<div class="col s2 offset-s3">
 						<h6>분류</h6>
 					</div>
+					<div id="categoryIntro" class="col s4">
+						<select>
+							<option value="" disabled selected>분류 선택</option>
+						</select>
+					</div>
 					<div id="in" class="col s4">
 						<select id="inCategory" name="inCategory">
-							<option value="N" disabled="disabled" selected="selected">수입 선택</option>
+							<option value="N" disabled selected>수입 선택</option>
 							<option value="월급">월급</option>
 							<option value="용돈">용돈</option>
 							<option value="부수입">부수입</option>
@@ -589,10 +576,12 @@
 			if ($(this).val() == "in") {
 				$("#registForm #in").show();
 				$("#registForm #out").hide();
+				$("#categoryIntro").hide();
 			}
 			if ($(this).val() == "out") {
 				$("#registForm #in").hide();
 				$("#registForm #out").show();
+				$("#categoryIntro").hide();
 			}
 		})
 		
