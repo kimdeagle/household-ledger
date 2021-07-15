@@ -2,15 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kimdeagle.ledger.system.ledger.LedgerMapper">
 
+	<sql id="search">
+		<if test='inOut != null and inOut != ""'>
+			AND IN_OUT = #{inOut}
+		</if>
+		<if test='category != null and category != ""'>
+			AND CATEGORY = #{category}
+		</if>
+		<if test='asset != null and asset != ""'>
+			AND ASSET = #{asset}
+		</if>
+		<if test='search.isCheckAllDate != null and !search.isCheckAllDate'>
+			AND ADD_DATE BETWEEN #{search.startDate} AND #{search.endDate}
+		</if>
+		<if test='search.isCheckAllAmount != null and !search.isCheckAllAmount'>
+			AND AMOUNT BETWEEN #{search.startAmount} AND #{search.endAmount}
+		</if>
+		<if test='search.keyword != null and search.keyword != ""'>
+			AND CONTENT LIKE CONCAT('%', #{search.keyword}, '%')
+		</if>
+	</sql>
+
 	<select id="getList" resultType="com.kimdeagle.ledger.system.ledger.LedgerDto">
 		SELECT
 			*
 		FROM
 			SY_LEDGER
 		WHERE
-			USER_NO = ${userNo}
+			USER_NO = #{userNo}
+		<include refid="search"></include>
 		ORDER BY
 			ADD_DATE DESC
+		LIMIT
+			#{pagination.startIdx}, #{pagination.cntPerPage}
 	</select>
 
 	<insert id="regist">
@@ -36,35 +60,6 @@
 			)
 	</insert>
 	
-	<select id="getSearchList" resultType="com.kimdeagle.ledger.system.ledger.LedgerDto">
-		SELECT
-			*
-		FROM
-			SY_LEDGER
-		WHERE
-			USER_NO = #{userNo}
-		<if test='inOut != ""'>
-			AND IN_OUT = #{inOut}
-		</if>
-		<if test='category != ""'>
-			AND CATEGORY = #{category}
-		</if>
-		<if test='asset != ""'>
-			AND ASSET = #{asset}
-		</if>
-		<if test='!isCheckAllDate'>
-			AND ADD_DATE BETWEEN #{startDate} AND #{endDate}
-		</if>
-		<if test='!isCheckAllAmount'>
-			AND AMOUNT BETWEEN #{startAmount} AND #{endAmount}
-		</if>
-		<if test='keyword != ""'>
-			AND CONTENT LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-		ORDER BY
-			ADD_DATE DESC
-	</select>
-	
 	<update id="update">
 		UPDATE
 			SY_LEDGER
@@ -85,4 +80,15 @@
 		WHERE
 			NO = #{no}
 	</delete>
+	
+	<select id="getTotalCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			SY_LEDGER
+		WHERE
+			USER_NO = #{userNo}
+		<include refid="search"></include>
+	</select>
+	
 </mapper>

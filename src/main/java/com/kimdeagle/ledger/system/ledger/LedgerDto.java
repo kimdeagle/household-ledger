@@ -2,7 +2,7 @@ package com.kimdeagle.ledger.system.ledger;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kimdeagle.ledger.util.Pagination;
 
 import lombok.Data;
 
@@ -21,5 +21,9 @@ public class LedgerDto {
 	private String allCategory;
 	private String inCategory;
 	private String outCategory;
+	
+	private LedgerSearchDto search;
+	
+	private Pagination pagination;
 	
 }

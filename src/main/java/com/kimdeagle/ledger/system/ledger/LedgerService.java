@@ -1,5 +1,7 @@
 package com.kimdeagle.ledger.system.ledger;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +23,31 @@ public class LedgerService {
 	@Autowired
 	private LedgerMapper ledgerMapper;
 
-	public ResponseEntity<Result> getList(String userNo) {
+	public ResponseEntity<Result> getList(LedgerDto ledger) {
+		
+		log.info("before ledger : {}", ledger);
 		
 		Result result = Result.instance();
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		
-		List<LedgerDto> list = ledgerMapper.getList(userNo);
+		//set category
+		if (StringUtils.equals(ledger.getInOut(), "")) ledger.setCategory(ledger.getAllCategory());
+		if (StringUtils.equals(ledger.getInOut(), "in")) ledger.setCategory(ledger.getInCategory());
+		if (StringUtils.equals(ledger.getInOut(), "out")) ledger.setCategory(ledger.getOutCategory());
+		
+		ledger.getPagination().setTotalLedgerCnt(ledgerMapper.getTotalCnt(ledger));
+		
+		ledger.getPagination().setPagination();
+		
+		log.info("after ledger : {}", ledger);
+		
+		List<LedgerDto> list = ledgerMapper.getList(ledger);
+		
 		
 		resultMap.put("list", list);
-		resultMap.put("count", list.size());
+		resultMap.put("count", ledger.getPagination().getTotalLedgerCnt());
+		resultMap.put("p", ledger.getPagination());
 		
 		result.setData(resultMap);
 		
@@ -54,26 +71,7 @@ public class LedgerService {
 		
 	} //regist
 
-	public ResponseEntity<Result> getSearchList(LedgerSearchDto ledger) {
-		
-		Result result = Result.instance();
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		//set category
-		if (StringUtils.equals(ledger.getInOut(), "")) ledger.setCategory(ledger.getAllCategory());
-		if (StringUtils.equals(ledger.getInOut(), "in")) ledger.setCategory(ledger.getInCategory());
-		if (StringUtils.equals(ledger.getInOut(), "out")) ledger.setCategory(ledger.getOutCategory());
-		
-		List<LedgerDto> list = ledgerMapper.getSearchList(ledger);
-		
-		resultMap.put("list", list);
-		resultMap.put("count", list.size());
-		
-		result.setData(resultMap);
-		
-		return ResponseEntity.ok(result.success());
-	}
+
 
 	public ResponseEntity<Result> update(LedgerDto ledger) {
 		

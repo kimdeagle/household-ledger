@@ -53,7 +53,7 @@
 </style>
 	<div class="col s9">
 		<div class="row">
-			<h4><i class="material-icons">event_note</i> 가계부 관리</h4>				
+			<h4><i class="material-icons">event_note</i> 가계부 관리</h4>
 		</div>
 		<div class="row">
 			<h5>
@@ -223,19 +223,24 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="row center-align">
+			<input type="hidden" id="pageNum" name="pageNum">
+			<ul class="pagination">
+			</ul>
+		</div>
 		<div class="row">
-			<h5>2021.07.14 이후 예정사항</h5>		
-			1. 페이지네이션
+			<h5>2021.07.14 이후 예정사항</h5>
+			0. 검색 - 검색 기간 미적용 해결(DB select 콘솔 찍어보기)
 			<br>
-			2. 회원가입
+			1. 회원가입
 			<br>
-			3. 아이디/비밀번호 찾기
+			2. 아이디/비밀번호 찾기
 			<br>
-			4. footer(할지말지 고민중)
+			3. footer(할지말지 고민중)
 			<br>
-			5. 통계
+			4. 통계
 			<br>
-			6. 메인
+			5. 메인
 		</div>
 	</div>
 	
@@ -467,6 +472,8 @@
 		var startAmount = 0;
 		//종료 금액(searchForm)
 		var endAmount = 0;
+		//검색 데이터 전달 queryString
+		var searchQueryString = "";
 		
 		/* Variable Declaration End */
 		
@@ -485,7 +492,7 @@
 		/* init Method Start */
 		
 		//가계부 목록 조회
-		getLedgerList();
+		getLedgerList(1);
 		
 		/* init Method End */
 		
@@ -606,9 +613,9 @@
 			getOriginAmount($("#registForm #amount"));
 			
 			//registForm data formatting
-			var queryString = $("#registForm").serialize();
+			registQueryString = $("#registForm").serialize();
 			
-			registLedger(queryString);
+			registLedger(registQueryString);
 		});
 		
 		//가계부 조회 모달 -> 수정 버튼 클릭
@@ -620,15 +627,15 @@
 			getOriginAmount($("#viewForm #amount"));
 			
 			//viewForm data formatting
-			var queryString = $("#viewForm").serialize();
+			updateQueryString = $("#viewForm").serialize();
 			
-			updateLedger(queryString);
+			updateLedger(updateQueryString);
 		})
 		
 		//가계부 조회 모달 -> 삭제 버튼 클릭
 		$("#deleteBtn").click(function() {
 			if (confirm('삭제하시겠습니까?')) {
-				deleteLedger($("#viewForm #no").val());				
+				deleteLedger($("#viewForm #no").val());
 			}
 		})
 
@@ -641,8 +648,8 @@
 					return;
 				}
 				//String -> Date
-				$("#searchForm #startDate").val(new Date($("#searchForm #startDate").val()));
-				$("#searchForm #endDate").val(new Date($("#searchForm #endDate").val()));				
+				//$("#searchForm #startDate").val(new Date($("#searchForm #startDate").val()));
+				//$("#searchForm #endDate").val(new Date($("#searchForm #endDate").val()));
 			}
 			
 			//금액 범위 - 전체 선택 아닌 경우
@@ -657,18 +664,22 @@
 				$("#searchForm #endAmount").val(endAmount);				
 			}
 			
-			var queryString = $("#searchForm").serialize();
+			//1페이지 조회
+			$("#pageNum").val(1);
 			
-			getSearchLedgerList(queryString);
+			searchQueryString = $("#searchForm").serialize();
+			
+			getLedgerList(1, searchQueryString);
 			
 			$("#searchFormResetBtn").css("display", "inline-block");
 			$("#ledgerListResetBtn").css("display", "inline-block");
 		}
 		
-		//검색 버튼 클릭
+		//검색 버튼 클릭 -> 검색
 		$("#searchBtn").click(function() {
 			search();
 		});
+		//검색어에서 엔터 -> 검색
 		$("#keyword").keyup(function() {
 			if (event.keyCode == 13) {
 				search();
@@ -683,7 +694,8 @@
 		//ledger list reset
 		$("#ledgerListResetBtn").click(function() {
 			$("#ledgerListTable tbody").html("");
-			getLedgerList();
+			searchQueryString = "";
+			getLedgerList(1);
 			$(this).hide();
 		})
 		
@@ -812,6 +824,15 @@
 			}
 		})
 		
+		//페이지 이동
+		$(document).on("click", ".pagination li a", function() {
+			//페이지 번호 set
+			$("#pageNum").val($(this).data("num"));
+			
+			getLedgerList($("#pageNum").val(), searchQueryString);
+
+		})
+		
 		/* Event End */
 		
 		
@@ -831,7 +852,7 @@
 					//reset data and getLedgerList
 					$("#ledgerListTable tbody").html("");
 					amount = 0;
-					getLedgerList();
+					getLedgerList(1);
 					//close registModal
 					registModal.close();
 				},
@@ -852,11 +873,7 @@
 					alert(res.message);
 					//reset data and getLedgerList
 					$("#ledgerListTable tbody").html("");
-					if ($("#ledgerListResetBtn").css("display") != "none") {
-						getSearchLedgerList($("#searchForm").serialize());
-					} else {
-						getLedgerList();						
-					}
+					getLedgerList($("#pageNum").val(), searchQueryString);
 					//close viewModal
 					viewModal.close();
 				},
@@ -876,11 +893,7 @@
 					alert(res.message);
 					//reset data and getLedgerList
 					$("#ledgerListTable tbody").html("");
-					if ($("#ledgerListResetBtn").css("display") != "none") {
-						getSearchLedgerList($("#searchForm").serialize());
-					} else {
-						getLedgerList();						
-					}
+					getLedgerList($("#pageNum").val(), searchQueryString);
 					//close viewModal
 					viewModal.close();
 				},
@@ -901,36 +914,41 @@
 			$("#allAmountBtn").removeClass("indigo darken-3");
 		}
 		
-		//검색 결과 조회 Function
-		function getSearchLedgerList(queryString) {
+		//페이지네이션 생성
+		function setPagination(pagination) {
+			var p = "";
 			
-			$.ajax({
-				method: "get",
-				url: "/ledger/search?userNo=${user.no}",
-				data: queryString,
-				success: function(res) {
-					//reset ledger list
-					$("#ledgerListTable tbody").html("");
-					
-					appendLedgerListTable(res.data.list);
-					var str = "(검색 : "+ res.data.count +"건)";
-					$("#count").html(str);
-				},
-				error: function(err) {
-					console.log(err);
+			if (pagination.prev) {
+				p += '<li class="waves-effect"><a data-num='+ (pagination.startPageNum-1) +'><i class="material-icons">chevron_left</i></a></li>';
+			}
+			for (var i=pagination.startPageNum; i<=pagination.endPageNum; i++) {
+				if (i == pagination.pageNum) {
+					p += '<li class="active"><a data-num='+ i +'>'+ i +'</a></li>';
+				} else {
+					p += '<li class="waves-effect"><a data-num='+ i +'>'+ i +'</a></li>';							
 				}
-			})
+			}
+			if (pagination.next) {
+				p += '<li class="waves-effect"><a data-num='+ (pagination.endPageNum+1) +'><i class="material-icons">chevron_right</i></a></li>';
+			}
+
+			$(".pagination").html(p);
 		}
 		
 		//가계부 목록 조회 Function
-		function getLedgerList() {
+		function getLedgerList(pageNum, queryString) {
 			$.ajax({
 				method: "get",
-				url: "/ledger/list?userNo=${user.no}",
+				url: "/ledger/list?userNo=${user.no}&pageNum="+pageNum+"&cntPerPage=10",
+				data: queryString,
 				success: function(res) {
+					//테이블에 행 추가
 					appendLedgerListTable(res.data.list);
-					var str = "(전체 : "+ res.data.count +"건)";
-					$("#count").html(str);
+					//게시글 수
+					var cnt = "(전체 : "+ res.data.count +"건)";
+					$("#count").html(cnt);
+					//페이지네이션 생성
+					setPagination(res.data.p);
 				},
 				error: function(err) {
 					console.log(err);
@@ -956,6 +974,7 @@
 		
 		//가계부 목록 테이블에 append Function
 		function appendLedgerListTable(ledgerList) {
+			$("#ledgerListTable tbody").html("");
 			//조회 결과가 없을 경우
 			if (ledgerList.length == 0) {
 				$("#ledgerListTable tbody").append("<tr><td colspan=6>조회 결과가 없습니다.</td></tr>");
