@@ -923,7 +923,8 @@
 		function getLedgerList(pageNum, queryString) {
 			$.ajax({
 				method: "get",
-				url: "/ledger/list?userNo=${user.no}&pageNum="+pageNum+"&cntPerPage=10",
+				//url: "/ledger/list?userNo=${user.no}&pageNum="+pageNum+"&cntPerPage=10",
+				url: `/ledger/list?userNo=${user.no}&pageNum=\${pageNum}&cntPerPage=10`,
 				data: queryString,
 				success: function(res) {
 					//테이블에 행 추가
@@ -931,9 +932,10 @@
 					//게시글 수
 					var cnt = "";
 					if ($("#ledgerListResetBtn").css("display") != "none") {
-						cnt = "(검색 : "+ res.data.count +"건)";
+						//cnt = "(검색 : "+ res.data.count +"건)";
+						cnt = `(검색 : \${res.data.count}건)`;
 					} else {
-						cnt = "(전체 : "+ res.data.count +"건)";						
+						cnt = `(전체 : \${res.data.count}건)`;						
 					}
 					$("#count").html(cnt);
 					//페이지네이션 생성
@@ -964,6 +966,18 @@
 				//가계부 목록 테이블에 append
 				var str = "";
 				
+				str += `
+							<tr>
+								<input type=hidden value=\${ledger.no}>
+								<td>\${ledger.addDate}</td>
+								<td><a class=content>\${ledger.content}</a></td>
+								<td>\${ledger.inOut}</td>
+								<td>\${ledger.category}</td>
+								<td>\${ledger.amount}</td>
+								<td>\${ledger.asset}</td>
+							</tr>
+							`;
+				/* 
 				str += "<tr>";
 				str += "<input type='hidden' value='"+ ledger.no +"'>";
 				str += "<td>" + ledger.addDate + "</td>";
@@ -973,7 +987,7 @@
 				str += "<td>" + ledger.amount + "</td>";
 				str += "<td>" + ledger.asset + "</td>";
 				str += "</tr>";
-				
+				 */
 				$("#ledgerListTable tbody").append(str);
 			})	
 		}
