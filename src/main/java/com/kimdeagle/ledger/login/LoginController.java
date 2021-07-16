@@ -42,4 +42,9 @@ public class LoginController {
 		return loginService.getLoginHistory(no);
 	}
 	
+	@GetMapping("/join")
+	public void join() {
+		
+	}
+	
 }
