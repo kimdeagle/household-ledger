@@ -1,7 +1,5 @@
 package com.kimdeagle.ledger.system.ledger;
 
-import java.util.Date;
-
 import com.kimdeagle.ledger.util.Pagination;
 
 import lombok.Data;
@@ -11,7 +9,7 @@ public class LedgerDto {
 
 	private String no;
 	private String userNo;
-	private Date addDate;
+	private String addDate;
 	private String amount;
 	private String content;
 	private String inOut;

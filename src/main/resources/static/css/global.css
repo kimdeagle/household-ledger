@@ -16,3 +16,13 @@ input::-webkit-inner-spin-button {
 .select-wrapper input[type=text] {
 	text-align: center;
 }
+
+table th,
+table td {
+	text-align: center;
+	vertical-align: middle;	
+}
+
+table.highlight > tbody > tr:hover {
+	background-color: rgba(222, 222, 222, 0.5) !important;
+}

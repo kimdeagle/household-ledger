@@ -1,7 +1,13 @@
-#lnb {
-	margin: 0 20px 0 0;
+#profile {
+	margin-bottom: -35px;
 }
-
+#profile p {
+	margin-bottom: 10px;
+}
 #ledgerMenu {
 	display: none;
+}
+
+#loginHistoryTable th {
+	background-color: #e8f5e9;
 }

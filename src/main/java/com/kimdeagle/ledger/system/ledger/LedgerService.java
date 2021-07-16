@@ -1,7 +1,5 @@
 package com.kimdeagle.ledger.system.ledger;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +23,6 @@ public class LedgerService {
 
 	public ResponseEntity<Result> getList(LedgerDto ledger) {
 		
-		log.info("before ledger : {}", ledger);
-		
 		Result result = Result.instance();
 		
 		Map<String, Object> resultMap = new HashMap<>();
@@ -36,12 +32,14 @@ public class LedgerService {
 		if (StringUtils.equals(ledger.getInOut(), "in")) ledger.setCategory(ledger.getInCategory());
 		if (StringUtils.equals(ledger.getInOut(), "out")) ledger.setCategory(ledger.getOutCategory());
 		
+		if (ledger.getSearch().isEmpty()) {
+			
+		}
+		
 		ledger.getPagination().setTotalLedgerCnt(ledgerMapper.getTotalCnt(ledger));
 		
 		ledger.getPagination().setPagination();
-		
-		log.info("after ledger : {}", ledger);
-		
+
 		List<LedgerDto> list = ledgerMapper.getList(ledger);
 		
 		

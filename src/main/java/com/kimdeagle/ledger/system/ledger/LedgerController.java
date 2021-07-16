@@ -1,10 +1,7 @@
 package com.kimdeagle.ledger.system.ledger;
 
-import java.util.Objects;
-
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,6 +37,7 @@ public class LedgerController {
 	@GetMapping("/list")
 	@ResponseBody
 	public ResponseEntity<Result> getList(LedgerDto ledger, LedgerSearchDto search, Pagination p) {
+		log.info("pagination : {}", p);
 		ledger.setSearch(search);
 		ledger.setPagination(p);
 		return ledgerService.getList(ledger);

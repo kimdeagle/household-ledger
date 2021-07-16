@@ -12,10 +12,10 @@
 		<if test='asset != null and asset != ""'>
 			AND ASSET = #{asset}
 		</if>
-		<if test='search.isCheckAllDate != null and !search.isCheckAllDate'>
+		<if test='search.startDate != null and search.startDate != ""'>
 			AND ADD_DATE BETWEEN #{search.startDate} AND #{search.endDate}
 		</if>
-		<if test='search.isCheckAllAmount != null and !search.isCheckAllAmount'>
+		<if test='search.startAmount != null and search.startAmount != ""'>
 			AND AMOUNT BETWEEN #{search.startAmount} AND #{search.endAmount}
 		</if>
 		<if test='search.keyword != null and search.keyword != ""'>

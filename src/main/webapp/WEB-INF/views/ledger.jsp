@@ -30,15 +30,11 @@
 		text-align: center;
 	}
 	
-	#ledgerListTable tr:hover {
-		background-color: rgba(222, 222, 222, 0.5);
-	}
-	
 	#in, #out {
 		display: none;
 	}
 	
-	.content {
+	#ledgerListTable .content {
 		cursor: pointer;
 	}
 	
@@ -49,9 +45,9 @@
 	.small-text {
 		font-size: 1.2rem;
 	}
-	
 </style>
 	<div class="col s9">
+		<input type="hidden" id="pageNum" name="pageNum" value="1">
 		<div class="row">
 			<h4><i class="material-icons">event_note</i> 가계부 관리</h4>
 		</div>
@@ -224,14 +220,11 @@
 			</table>
 		</div>
 		<div class="row center-align">
-			<input type="hidden" id="pageNum" name="pageNum">
 			<ul class="pagination">
 			</ul>
 		</div>
 		<div class="row">
 			<h5>2021.07.14 이후 예정사항</h5>
-			0. 검색 - 검색 기간 미적용 해결(DB select 콘솔 찍어보기)
-			<br>
 			1. 회원가입
 			<br>
 			2. 아이디/비밀번호 찾기
@@ -242,7 +235,6 @@
 			<br>
 			5. 메인
 		</div>
-	</div>
 	
 	<!-- Modal Structure -->
 	<div id="registModal" class="modal">
@@ -430,7 +422,7 @@
 			<a id="cancelBtn" class="modal-close waves-effect waves-light btn blue-grey darken-1">취소</a>
 		</div>
 	</div>
-</body>
+
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() {
 		var datepicker = document.querySelectorAll('.datepicker');
@@ -606,8 +598,6 @@
 		
 		//가계부 등록 모달 -> 등록 버튼 클릭
 		$("#registBtn").click(function() {
-			//String -> Date
-			$("#registForm #addDate").val(convertStringToDate($("#registForm #addDate").val()));
 			
 			//String -> Integer
 			getOriginAmount($("#registForm #amount"));
@@ -620,8 +610,6 @@
 		
 		//가계부 조회 모달 -> 수정 버튼 클릭
 		$("#updateBtn").click(function() {
-			//String -> Date
-			$("#viewForm #addDate").val(convertStringToDate($("#viewForm #addDate").val()));
 			
 			//String -> Integer
 			getOriginAmount($("#viewForm #amount"));
@@ -647,9 +635,6 @@
 					alert("검색 기간을 지정해주세요.");
 					return;
 				}
-				//String -> Date
-				//$("#searchForm #startDate").val(new Date($("#searchForm #startDate").val()));
-				//$("#searchForm #endDate").val(new Date($("#searchForm #endDate").val()));
 			}
 			
 			//금액 범위 - 전체 선택 아닌 경우
@@ -661,7 +646,7 @@
 				}
 				//String -> Integer
 				$("#searchForm #startAmount").val(startAmount);
-				$("#searchForm #endAmount").val(endAmount);				
+				$("#searchForm #endAmount").val(endAmount);
 			}
 			
 			//1페이지 조회
@@ -671,7 +656,6 @@
 			
 			getLedgerList(1, searchQueryString);
 			
-			$("#searchFormResetBtn").css("display", "inline-block");
 			$("#ledgerListResetBtn").css("display", "inline-block");
 		}
 		
@@ -701,67 +685,63 @@
 		
 		//검색 기간 전체 버튼 클릭
 		$("#allDateBtn").click(function() {
+			$("#allDateCheckbox").prop("checked", !$("#allDateCheckbox").prop("checked"));
+			
 			if ($("#allDateCheckbox").prop("checked")) {
-				M.toast({
-					html: '전체 검색 기간 OFF',
-					displayLength: 2000,
-					classes: 'rounded grey darken-2'
-				});
-				//기존 체크O -> 체크X
-				$("#allDateCheckbox").removeAttr("checked");
-				//remove disabled
-				$("#searchForm #startDate").removeAttr("disabled");
-				$("#searchForm #endDate").removeAttr("disabled");
-				//색 변경
-				$(this).addClass("grey darken-2");
-				$(this).removeClass("indigo darken-3");
-			} else {
 				M.toast({
 					html: '전체 검색 기간 ON',
 					displayLength: 2000,
 					classes: 'rounded indigo darken-3'
 				});
-				//기존 체크X -> 체크O
-				$("#allDateCheckbox").attr("checked", true);
 				//disabled
 				$("#searchForm #startDate").attr("disabled", true);
 				$("#searchForm #endDate").attr("disabled", true);
 				//색 변경
 				$(this).removeClass("grey darken-2");
 				$(this).addClass("indigo darken-3");
+			} else {
+				M.toast({
+					html: '전체 검색 기간 OFF',
+					displayLength: 2000,
+					classes: 'rounded grey darken-2'
+				});
+				//remove disabled
+				$("#searchForm #startDate").removeAttr("disabled");
+				$("#searchForm #endDate").removeAttr("disabled");
+				//색 변경
+				$(this).addClass("grey darken-2");
+				$(this).removeClass("indigo darken-3");
 			}
 		})
 		
 		//금액 범위 전체 버튼 클릭
 		$("#allAmountBtn").click(function() {
+			$("#allAmountCheckbox").prop("checked", !$("#allAmountCheckbox").prop("checked"));
+			
 			if ($("#allAmountCheckbox").prop("checked")) {
-				M.toast({
-					html: '전체 금액 범위 OFF',
-					displayLength: 2000,
-					classes: 'rounded grey darken-2'
-				});
-				//기존 체크O -> 체크X
-				$("#allAmountCheckbox").removeAttr("checked");
-				//remove disabled
-				$("#searchForm #startAmount").removeAttr("disabled");
-				$("#searchForm #endAmount").removeAttr("disabled");
-				//색 변경
-				$(this).addClass("grey darken-2");
-				$(this).removeClass("indigo darken-3");
-			} else {
 				M.toast({
 					html: '전체 금액 범위 ON',
 					displayLength: 2000,
 					classes: 'rounded indigo darken-3'
 				});
-				//기존 체크X -> 체크O
-				$("#allAmountCheckbox").attr("checked", true);
 				//disabled
 				$("#searchForm #startAmount").attr("disabled", true);
 				$("#searchForm #endAmount").attr("disabled", true);
 				//색 변경
 				$(this).removeClass("grey darken-2");
 				$(this).addClass("indigo darken-3");
+			} else {
+				M.toast({
+					html: '전체 금액 범위 OFF',
+					displayLength: 2000,
+					classes: 'rounded grey darken-2'
+				});
+				//remove disabled
+				$("#searchForm #startAmount").removeAttr("disabled");
+				$("#searchForm #endAmount").removeAttr("disabled");
+				//색 변경
+				$(this).addClass("grey darken-2");
+				$(this).removeClass("indigo darken-3");
 			}
 		})
 		
@@ -906,8 +886,12 @@
 		//searchForm reset Function
 		function searchFormReset() {
 			$("#searchForm")[0].reset();
-			$("#allDateCheckbox").removeAttr("checked");
-			$("#allAmountCheckbox").removeAttr("checked");
+			$("#allDateCheckbox").prop("checked", false);
+			$("#allAmountCheckbox").prop("checked", false);
+			$("#searchForm #startDate").removeAttr("disabled");
+			$("#searchForm #endDate").removeAttr("disabled");
+			$("#searchForm #startAmount").removeAttr("disabled");
+			$("#searchForm #endAmount").removeAttr("disabled");
 			$("#allDateBtn").addClass("grey darken-2");
 			$("#allDateBtn").removeClass("indigo darken-3");
 			$("#allAmountBtn").addClass("grey darken-2");
@@ -945,7 +929,12 @@
 					//테이블에 행 추가
 					appendLedgerListTable(res.data.list);
 					//게시글 수
-					var cnt = "(전체 : "+ res.data.count +"건)";
+					var cnt = "";
+					if ($("#ledgerListResetBtn").css("display") != "none") {
+						cnt = "(검색 : "+ res.data.count +"건)";
+					} else {
+						cnt = "(전체 : "+ res.data.count +"건)";						
+					}
 					$("#count").html(cnt);
 					//페이지네이션 생성
 					setPagination(res.data.p);
@@ -954,22 +943,6 @@
 					console.log(err);
 				}
 			})
-		}
-		
-		//Date -> String Function
-		function convertDateToString(originDate) {
-			var year = originDate.getFullYear();
-			var month = originDate.getMonth() + 1;
-			month = month >= 10 ? month : "0" + month;
-			var date = originDate.getDate();
-			date = date > 10 ? date : "0" + date;
-			
-			return year + "-" + month + "-" + date;
-		}
-		
-		//String -> Date Function
-		function convertStringToDate(originString) {
-			return new Date(originString);
 		}
 		
 		//가계부 목록 테이블에 append Function
@@ -982,8 +955,8 @@
 			}
 			
 			ledgerList.forEach(function(ledger, index) {
-				//날짜 형식 변경 Date -> String (yyyy-MM-dd)
-				ledger.addDate = convertDateToString(new Date(ledger.addDate));
+				//날짜 형식 변경 (시간 제거)
+				ledger.addDate = ledger.addDate.substring(0, 10);
 				//수입/지출 텍스트 변경
 				ledger.inOut = ledger.inOut == 'in' ? '수입' : '지출';
 				//금액 콤마 + "원"
@@ -1027,4 +1000,5 @@
 	});
 
 </script>
-</html>
+
+<%@ include file="common/footer.jsp" %>
