@@ -223,16 +223,6 @@
 			<ul class="pagination">
 			</ul>
 		</div>
-		<div class="row">
-			<h5>2021.07.14 이후 예정사항</h5>
-			1. 아이디/비밀번호 찾기
-			<br>
-			2. footer(할지말지 고민중)
-			<br>
-			3. 통계
-			<br>
-			4. 메인
-		</div>
 	
 	<!-- Modal Structure -->
 	<div id="registModal" class="modal">

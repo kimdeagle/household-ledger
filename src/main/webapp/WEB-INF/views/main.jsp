@@ -2,10 +2,19 @@
     pageEncoding="UTF-8"%>
 <%@ include file="common/header.jsp" %>
 <%@ include file="common/lnb.jsp" %>
-
+<style>
+	ol li {
+		font-size: 1.5rem;
+	}
+</style>
 	<div class="col s9">
-		<img class="responsive-img" src="img/main2.jpg">
-		<span style="position: fixed; top: 40%; left: 40%; font-size: 5em; color: midnightblue;">메인 준비중입니다.</span>
+		<h4>TODO LIST</h4>
+		<ol>
+			<li>change anonymous function into arrow function</li>
+			<li>statistics</li>
+			<li>main</li>
+			<li>footer</li>
+		</ol>
 	</div>
 
 	<script type="text/javascript">
