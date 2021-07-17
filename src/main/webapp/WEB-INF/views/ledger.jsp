@@ -903,17 +903,21 @@
 			var p = "";
 			
 			if (pagination.prev) {
-				p += '<li class="waves-effect"><a data-num='+ (pagination.startPageNum-1) +'><i class="material-icons">chevron_left</i></a></li>';
+				//p += '<li class="waves-effect"><a data-num='+ (pagination.startPageNum-1) +'><i class="material-icons">chevron_left</i></a></li>';
+				p += `<li class="waves-effect"><a data-num=\${pagination.startPageNum-1}><i class="material-icons">chevron_left</i></a></li>`;
 			}
 			for (var i=pagination.startPageNum; i<=pagination.endPageNum; i++) {
 				if (i == pagination.pageNum) {
-					p += '<li class="active"><a data-num='+ i +'>'+ i +'</a></li>';
+					//p += '<li class="active"><a data-num='+ i +'>'+ i +'</a></li>';
+					p += `<li class="active"><a data-num=\${i}>\${i}</a></li>`;
 				} else {
-					p += '<li class="waves-effect"><a data-num='+ i +'>'+ i +'</a></li>';							
+					//p += '<li class="waves-effect"><a data-num='+ i +'>'+ i +'</a></li>';							
+					p += `<li class="waves-effect"><a data-num=\${i}>\${i}</a></li>`;
 				}
 			}
 			if (pagination.next) {
-				p += '<li class="waves-effect"><a data-num='+ (pagination.endPageNum+1) +'><i class="material-icons">chevron_right</i></a></li>';
+				//p += '<li class="waves-effect"><a data-num='+ (pagination.endPageNum+1) +'><i class="material-icons">chevron_right</i></a></li>';
+				p += `<li class="waves-effect"><a data-num=\${pagination.endPageNum+1}><i class="material-icons">chevron_right</i></a></li>`;
 			}
 
 			$(".pagination").html(p);
@@ -966,17 +970,18 @@
 				//가계부 목록 테이블에 append
 				var str = "";
 				
-				str += `
-							<tr>
-								<input type=hidden value=\${ledger.no}>
-								<td>\${ledger.addDate}</td>
-								<td><a class=content>\${ledger.content}</a></td>
-								<td>\${ledger.inOut}</td>
-								<td>\${ledger.category}</td>
-								<td>\${ledger.amount}</td>
-								<td>\${ledger.asset}</td>
-							</tr>
-							`;
+				//Case 1. 백틱(``) 사용
+				str += `<tr>
+							<input type=hidden value=\${ledger.no}>
+							<td>\${ledger.addDate}</td>
+							<td><a class=content>\${ledger.content}</a></td>
+							<td>\${ledger.inOut}</td>
+							<td>\${ledger.category}</td>
+							<td>\${ledger.amount}</td>
+							<td>\${ledger.asset}</td>
+						</tr>`;
+				
+				//Case 2. 문자열 조합
 				/* 
 				str += "<tr>";
 				str += "<input type='hidden' value='"+ ledger.no +"'>";
@@ -988,6 +993,7 @@
 				str += "<td>" + ledger.asset + "</td>";
 				str += "</tr>";
 				 */
+				
 				$("#ledgerListTable tbody").append(str);
 			})	
 		}
