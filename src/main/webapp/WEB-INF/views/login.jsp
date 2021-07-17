@@ -29,7 +29,8 @@
 </style>
 
 </head>
-<body class="grey lighten-5">	
+<body class="grey lighten-5">
+	
 	<div class="container">
 		<div class="row">
 			<h2 class="page-header">Household Ledger</h2>		
@@ -67,8 +68,13 @@
 					</button>
 				</div>
 				<div class="row">
-					<button class="waves-effect waves-light grey darken-3 btn col s12" id="findIdOrPwBtn">
-						<i class="material-icons right">search</i>아이디/비밀번호 찾기
+					<button class="waves-effect waves-light grey darken-2 btn col s12" id="findIdBtn">
+						<i class="material-icons right">search</i>아이디 찾기
+					</button>			
+				</div>	
+				<div class="row">
+					<button class="waves-effect waves-light grey darken-3 btn col s12" id="findPwBtn">
+						<i class="material-icons right">search</i>비밀번호 찾기
 					</button>			
 				</div>	
 			</div>			
@@ -77,6 +83,7 @@
 </body>
 
 <script type="text/javascript">
+
 	$(document).ready(function() {
 		
 		/* 쿠기 관련 시작 */
@@ -171,6 +178,14 @@
 			location.href = "/join";
 		});
 		
+		$("#findIdBtn").click(function() {
+			location.href = "/findId";
+		});
+		
+		$("#findPwBtn").click(function() {
+			location.href = "/findPw";
+		});
+		
 		//로그인 유효성 검사 Function
 		function loginValidation() {
 			if ($("#id").val() == "") {
@@ -205,6 +220,7 @@
 					loginForm.submit();
 				},
 				error: function(err) {
+					console.log(err);
 					alert(err.responseJSON.message);
 				}
 			})

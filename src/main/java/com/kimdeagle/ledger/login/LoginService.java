@@ -40,5 +40,19 @@ public class LoginService {
 		
 		return ResponseEntity.ok(result.success());
 	}
+
+	public ResponseEntity<Result> find(UserDto user) {
+		Result result = Result.instance();
+		
+		UserDto findUser = loginMapper.find(user);
+		
+		if (ObjectUtils.isEmpty(findUser)) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result.fail("검색 결과가 없습니다."));
+		}
+		
+		result.setData(findUser);
+		
+		return ResponseEntity.ok(result.success("검색 성공"));
+	}
 	
 }

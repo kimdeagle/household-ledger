@@ -14,5 +14,7 @@ public interface LoginMapper {
 	void insertLoginDate(UserDto loginInfo);
 
 	List<LoginHistoryDto> getLoginHistory(String no);
+
+	UserDto find(UserDto user);
 	
 }

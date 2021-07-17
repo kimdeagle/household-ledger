@@ -37,4 +37,23 @@
 		WHERE
 			USER_NO = #{no}
 	</select>
+	
+	<select id="find" resultType="com.kimdeagle.ledger.user.UserDto">
+		SELECT
+		<if test='id == null or id == ""'>
+			ID
+		</if>
+		<if test='id != null and id != ""'>
+			PW
+		</if>
+		FROM
+			SY_USER
+		WHERE
+			NAME = #{name}
+		AND
+			EMAIL = #{email}
+	<if test='id != null and id != ""'>
+		AND ID = #{id}
+	</if>
+	</select>
 </mapper>

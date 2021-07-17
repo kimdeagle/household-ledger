@@ -42,4 +42,20 @@ public class LoginController {
 		return loginService.getLoginHistory(no);
 	}
 	
+	@GetMapping("/findId")
+	public void findId() {
+		
+	}
+	
+	@GetMapping("/findPw")
+	public void findPw() {
+		
+	}
+	
+	@GetMapping("/find")
+	@ResponseBody
+	public ResponseEntity<Result> find(UserDto user) {
+		return loginService.find(user);
+	}
+	
 }

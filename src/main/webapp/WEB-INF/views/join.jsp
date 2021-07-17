@@ -122,6 +122,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		})
@@ -171,6 +172,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		})

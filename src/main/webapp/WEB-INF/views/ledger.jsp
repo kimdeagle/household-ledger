@@ -225,15 +225,13 @@
 		</div>
 		<div class="row">
 			<h5>2021.07.14 이후 예정사항</h5>
-			1. 회원가입
+			1. 아이디/비밀번호 찾기
 			<br>
-			2. 아이디/비밀번호 찾기
+			2. footer(할지말지 고민중)
 			<br>
-			3. footer(할지말지 고민중)
+			3. 통계
 			<br>
-			4. 통계
-			<br>
-			5. 메인
+			4. 메인
 		</div>
 	
 	<!-- Modal Structure -->
@@ -838,6 +836,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		}
@@ -859,6 +858,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		}
@@ -879,6 +879,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		}
@@ -947,6 +948,7 @@
 				},
 				error: function(err) {
 					console.log(err);
+					alert(err.responseJSON.message);
 				}
 			})
 		}
