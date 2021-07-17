@@ -1,13 +1,11 @@
-package com.kimdeagle.ledger.member;
+package com.kimdeagle.ledger.user;
 
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
 @Data
-public class MemberDto {
+public class UserDto {
 
 	private String no;
 	private String id;
@@ -18,4 +16,5 @@ public class MemberDto {
 	private Date updateDate;
 	
 	private Date lastLoginDate;
+	
 }

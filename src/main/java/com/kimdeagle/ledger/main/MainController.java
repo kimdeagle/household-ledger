@@ -5,10 +5,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.kimdeagle.ledger.member.MemberDto;
+import com.kimdeagle.ledger.user.UserDto;
 
 @Controller
 public class MainController {
@@ -19,7 +18,7 @@ public class MainController {
 	}
 	
 	@PostMapping("/main")
-	public void main(MemberDto user, HttpSession session, Model model) {
+	public void main(UserDto user, HttpSession session, Model model) {
 		model.addAttribute("title", "메인");
 		session.setAttribute("user", user);
 	}

@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kimdeagle.ledger.member.MemberDto;
+import com.kimdeagle.ledger.user.UserDto;
 
 @Mapper
 public interface LoginMapper {
 
-	MemberDto login(MemberDto user);
+	UserDto login(UserDto user);
 
-	void insertLoginDate(MemberDto loginInfo);
+	void insertLoginDate(UserDto loginInfo);
 
 	List<LoginHistoryDto> getLoginHistory(String no);
 	

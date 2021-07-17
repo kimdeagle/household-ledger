@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kimdeagle.ledger.member.MemberDto;
+import com.kimdeagle.ledger.user.UserDto;
 import com.kimdeagle.ledger.util.Pagination;
 import com.kimdeagle.ledger.util.Result;
 
@@ -47,7 +47,7 @@ public class LedgerController {
 	@ResponseBody
 	public ResponseEntity<Result> regist(LedgerDto ledger, HttpSession session) {
 		
-		ledger.setUserNo(((MemberDto)session.getAttribute("user")).getNo());
+		ledger.setUserNo(((UserDto)session.getAttribute("user")).getNo());
 		
 		return ledgerService.regist(ledger);
 	}

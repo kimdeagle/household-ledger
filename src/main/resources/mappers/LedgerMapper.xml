@@ -38,26 +38,27 @@
 	</select>
 
 	<insert id="regist">
-		INSERT INTO SY_LEDGER
-			(
-				USER_NO,
-				ADD_DATE,
-				AMOUNT,
-				CONTENT,
-				IN_OUT,
-				CATEGORY,
-				ASSET
-			)
-		VALUES
-			(
-				#{userNo},
-				#{addDate},
-				#{amount},
-				#{content},
-				#{inOut},
-				#{category},
-				#{asset}
-			)
+		INSERT INTO
+			SY_LEDGER
+				(
+					USER_NO,
+					ADD_DATE,
+					AMOUNT,
+					CONTENT,
+					IN_OUT,
+					CATEGORY,
+					ASSET
+				)
+			VALUES
+				(
+					#{userNo},
+					#{addDate},
+					#{amount},
+					#{content},
+					#{inOut},
+					#{category},
+					#{asset}
+				)
 	</insert>
 	
 	<update id="update">

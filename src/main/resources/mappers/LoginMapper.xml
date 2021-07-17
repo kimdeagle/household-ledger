@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kimdeagle.ledger.login.LoginMapper">
-	<select id="login" resultType="com.kimdeagle.ledger.member.MemberDto">
+	<select id="login" resultType="com.kimdeagle.ledger.user.UserDto">
 		SELECT
 			*
 		FROM
@@ -12,7 +12,7 @@
 			PW = #{pw}
 	</select>
 	
-	<insert id="insertLoginDate" parameterType="com.kimdeagle.ledger.member.MemberDto">
+	<insert id="insertLoginDate" parameterType="com.kimdeagle.ledger.user.UserDto">
 		<selectKey keyProperty="lastLoginDate" resultType="java.util.Date" order="AFTER">
 			SELECT
 				MAX(LOGIN_DATE)

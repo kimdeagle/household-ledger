@@ -1,45 +1,39 @@
 package com.kimdeagle.ledger.login;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kimdeagle.ledger.user.UserDto;
 import com.kimdeagle.ledger.util.Result;
 
 @Controller
-public class LoginController {
+@RequestMapping("/join")
+public class JoinController {
 	
 	@Autowired
-	private LoginService loginService;
+	private JoinService joinService;
 
 	@GetMapping("")
-	public String login() {
-		return "login";
+	public void join() {
+		
 	}
 	
-	@PostMapping("/login")
+	@GetMapping("/duplication/{id}")
 	@ResponseBody
-	public ResponseEntity<Result> login(UserDto user) {
-		return loginService.login(user);
+	public ResponseEntity<Result> duplicationCheck(@PathVariable String id) {
+		return joinService.duplicationCheck(id);
 	}
 	
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
-	
-	@GetMapping("/login/history/{no}")
+	@PostMapping("")
 	@ResponseBody
-	public ResponseEntity<Result> loginHistory(@PathVariable String no) {
-		return loginService.getLoginHistory(no);
+	public ResponseEntity<Result> join(UserDto user) {
+		return joinService.join(user);
 	}
 	
 }

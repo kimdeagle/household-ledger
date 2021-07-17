@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.kimdeagle.ledger.member.MemberDto;
+import com.kimdeagle.ledger.user.UserDto;
 import com.kimdeagle.ledger.util.Result;
 
 @Service
@@ -15,19 +15,19 @@ public class LoginService {
 	@Autowired
 	private LoginMapper loginMapper;
 
-	public ResponseEntity<Result> login(MemberDto user) {
+	public ResponseEntity<Result> login(UserDto user) {
 		
 		Result result = Result.instance();
 		
-		MemberDto loginInfo = loginMapper.login(user);
+		UserDto userInfo = loginMapper.login(user);
 		
-		if (ObjectUtils.isEmpty(loginInfo)) {
+		if (ObjectUtils.isEmpty(userInfo)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result.loginFail());
 		}
 
-		loginMapper.insertLoginDate(loginInfo);
+		loginMapper.insertLoginDate(userInfo);
 		
-		result.setData(loginInfo);
+		result.setData(userInfo);
 		
 		return ResponseEntity.ok(result.loginSuccess());
 	}
