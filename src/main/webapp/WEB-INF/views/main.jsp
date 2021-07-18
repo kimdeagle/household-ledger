@@ -10,7 +10,7 @@
 	<div class="col s9">
 		<h4>TODO LIST</h4>
 		<ol>
-			<li>change anonymous function into arrow function (ledger.jsp)</li>
+			<li>change anonymous function into arrow function (ledger.jsp)123</li>
 			<li>statistics</li>
 			<li>main</li>
 			<li>footer</li>
