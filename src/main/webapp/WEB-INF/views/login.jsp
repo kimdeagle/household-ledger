@@ -145,8 +145,10 @@
 		}
 		
 		//loginBtn click -> login process
-		$("#loginBtn").click(function() {
-			loginValidation();
+		$("#loginBtn").click(() => {
+			if (!loginValidation()) {
+				return;
+			}
 			
 			if ($("#isRememberId").prop("checked")) {
 				id = $("input[name=id]").val();
@@ -159,9 +161,11 @@
 		});
 		
 		//enter in password input box -> login process
-		$("#pw").keyup(function() {
+		$("#pw").keyup(() => {
 			if (event.keyCode == 13) {
-				loginValidation();
+				if (!loginValidation()) {
+					return;
+				}
 				
 				if ($("#isRememberId").prop("checked")) {
 					id = $("input[name=id]").val();
@@ -174,15 +178,15 @@
 			}
 		});
 		
-		$("#joinBtn").click(function() {
+		$("#joinBtn").click(() => {
 			location.href = "/join";
 		});
 		
-		$("#findIdBtn").click(function() {
+		$("#findIdBtn").click(() => {
 			location.href = "/findId";
 		});
 		
-		$("#findPwBtn").click(function() {
+		$("#findPwBtn").click(() => {
 			location.href = "/findPw";
 		});
 		
@@ -190,12 +194,13 @@
 		function loginValidation() {
 			if ($("#id").val() == "") {
 				alert("아이디를 입력해주세요.");
-				return;
+				return false;
 			}
 			if ($("#pw").val() == "") {
 				alert("비밀번호를 입력해주세요.");
-				return;
-			}			
+				return false;
+			}
+			return true;
 		}
 		
 		//로그인 Function
@@ -208,7 +213,7 @@
 					id: $("#id").val(),
 					pw: $("#pw").val()
 				},
-				success: function(res) {
+				success: (res) => {
 					loginForm.html("");
 					loginForm.append("<input type='hidden' name='no' value='"+ res.data.no +"'>");
 					loginForm.append("<input type='hidden' name='id' value='"+ res.data.id +"'>");
@@ -219,7 +224,7 @@
 					loginForm.attr("action", "/main");
 					loginForm.submit();
 				},
-				error: function(err) {
+				error: (err) => {
 					console.log(err);
 					alert(err.responseJSON.message);
 				}

@@ -104,15 +104,15 @@
 </body>
 
 <script type="text/javascript">
-	$(document).ready(function() {
+	$(document).ready(() => {
 		//focus
 		$("#id").focus();
 		
-		$("#idDuplicationCheckBtn").click(function() {
+		$("#idDuplicationCheckBtn").click(() => {
 			$.ajax({
 				method: "get",
 				url: "/join/duplication/" + $("#id").val(),
-				success: function(res) {
+				success: (res) => {
 					alert(res.message);
 					if (res.data.isDuplication) {
 						$("#id").select();
@@ -120,33 +120,25 @@
 						$("#pw").focus();
 					}
 				},
-				error: function(err) {
+				error: (err) => {
 					console.log(err);
 					alert(err.responseJSON.message);
 				}
 			})
-		})
+		});
 		
-		function lengthCheck(target, maxLength) {
-			if (target.val().length > maxLength) {
-				alert(maxLength + "자 이내로 입력해주세요.");
-				target.val(target.val().substring(0, maxLength));
-				return;
-			}
-		}
-		
-		$("#id").keyup(function() {
-			lengthCheck($(this), 15);
+		$("#id").keyup(() => {
+			lengthCheck($("#id"), 15);
 			$("#idLengthCount").html("("+ $("#id").val().length +"/15)");
 		});
 		
-		$("#pw").keyup(function() {
-			lengthCheck($(this), 20);
+		$("#pw").keyup(() => {
+			lengthCheck($("#pw"), 20);
 			$("#pwLengthCount").html("("+ $("#pw").val().length +"/20)");
-		})
+		});
 		
-		$("#pwValidation").keyup(function() {
-			lengthCheck($(this), 20);
+		$("#pwValidation").keyup(() => {
+			lengthCheck($("#pwValidation"), 20);
 			if ($("#pw").val() == $("#pwValidation").val()) {
 				$("#isEqualPassword").text("일치");
 				$("#isEqualPassword").css("color", "blue");
@@ -154,9 +146,9 @@
 				$("#isEqualPassword").text("불일치");		
 				$("#isEqualPassword").css("color", "red");
 			}				
-		})
+		});
 		
-		$("#joinBtn").click(function() {
+		$("#joinBtn").click(() => {
 			if ($("#pw").val() != $("#pwValidation").val()) {
 				alert("비밀번호를 확인해주세요.");
 				return;
@@ -166,20 +158,28 @@
 				method: "post",
 				url: "/join",
 				data: queryString,
-				success: function(res) {
+				success: (res) => {
 					alert(res.message);
 					location.href = "/";
 				},
-				error: function(err) {
+				error: (err) => {
 					console.log(err);
 					alert(err.responseJSON.message);
 				}
 			})
-		})
+		});
 		
-		$("#backBtn").click(function() {
+		$("#backBtn").click(() => {
 			history.back();
-		})
+		});
+		
+		function lengthCheck(target, maxLength) {
+			if (target.val().length > maxLength) {
+				alert(maxLength + "자 이내로 입력해주세요.");
+				target.val(target.val().substring(0, maxLength));
+				return;
+			}
+		}
 
 	})
 </script>

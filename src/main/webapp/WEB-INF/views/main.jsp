@@ -10,7 +10,7 @@
 	<div class="col s9">
 		<h4>TODO LIST</h4>
 		<ol>
-			<li>change anonymous function into arrow function</li>
+			<li>change anonymous function into arrow function (ledger.jsp)</li>
 			<li>statistics</li>
 			<li>main</li>
 			<li>footer</li>
@@ -18,7 +18,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(() => {
 			var user = "${user}";
 			if (user === "") {
 				alert("로그인 후 이용해주세요.");
