@@ -21,7 +21,7 @@ public class LoginController {
 
 	@GetMapping("")
 	public String login() {
-		return "login";
+		return "login/login";
 	}
 	
 	@PostMapping("/login")
@@ -43,13 +43,13 @@ public class LoginController {
 	}
 	
 	@GetMapping("/findId")
-	public void findId() {
-		
+	public String findId() {
+		return "login/findId";
 	}
 	
 	@GetMapping("/findPw")
-	public void findPw() {
-		
+	public String findPw() {
+		return "login/findPw";
 	}
 	
 	@GetMapping("/find")

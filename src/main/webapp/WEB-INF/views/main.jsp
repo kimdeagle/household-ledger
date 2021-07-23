@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="common/header.jsp" %>
-<%@ include file="common/lnb.jsp" %>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/lnb.jsp" %>
 <style>
 	ol li {
 		font-size: 1.5rem;
@@ -12,6 +12,7 @@
 		<ol>
 			<li>change anonymous function into arrow function (ledger.jsp)</li>
 			<li>statistics</li>
+			<li>profile</li>
 			<li>main</li>
 			<li>footer</li>
 		</ol>
@@ -27,4 +28,4 @@
 		})
 	</script>
 
-<%@ include file="common/footer.jsp" %>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

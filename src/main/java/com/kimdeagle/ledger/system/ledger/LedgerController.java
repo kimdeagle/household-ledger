@@ -31,7 +31,7 @@ public class LedgerController {
 	@GetMapping("")
 	public String ledger(Model model) {
 		model.addAttribute("title", "가계부 관리");
-		return "ledger";
+		return "ledger/ledger";
 	}
 	
 	@GetMapping("/list")
@@ -62,6 +62,12 @@ public class LedgerController {
 	@ResponseBody
 	public ResponseEntity<Result> delete(@PathVariable String no) {
 		return ledgerService.delete(no);
+	}
+	
+	@GetMapping("/stat")
+	public String stat(Model model) {
+		model.addAttribute("title", "가계부 통계");
+		return "ledger/stat";
 	}
 	
 }

@@ -53,7 +53,7 @@
 							가계부 관리
 							<i class="material-icons right">event_available</i>
 						</a>
-						<a id="ledgerStat" class="waves-effect waves-light blue-grey lighten-1 btn col s12" onclick="alert('메뉴 준비중');">
+						<a id="ledgerStat" href="/ledger/stat" class="waves-effect waves-light blue-grey lighten-1 btn col s12">
 							가계부 통계
 							<i class="material-icons right">equalizer</i>
 						</a>

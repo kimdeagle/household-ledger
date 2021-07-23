@@ -7,6 +7,8 @@ public class Result {
 	
 	private final static String LOGIN_SUCCESS = "로그인 성공";
 	private final static String LOGIN_FAIL = "로그인 실패";
+	private final static String SUCCESS = "성공";
+	private final static String FAIL = "실패";
 
 	private String message;
 	private Object data;
@@ -16,7 +18,7 @@ public class Result {
 	}
 	
 	public Result success() {
-		this.message = "성공";
+		this.message = SUCCESS;
 		return this;
 	}
 	
@@ -25,12 +27,24 @@ public class Result {
 		return this;
 	}
 	
+	public Result success(Object data, String message) {
+		this.data = data;
+		this.message = message;
+		return this;
+	}
+	
 	public Result fail() {
-		this.message = "실패";
+		this.message = FAIL;
 		return this;
 	}
 	
 	public Result fail(String message) {
+		this.message = message;
+		return this;
+	}
+	
+	public Result fail(Object data, String message) {
+		this.data = data;
 		this.message = message;
 		return this;
 	}

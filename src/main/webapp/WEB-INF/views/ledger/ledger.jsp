@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="common/header.jsp" %>
-<%@ include file="common/lnb.jsp" %>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/lnb.jsp" %>
 <style>
 	#searchForm .s5 .row .s3,
 	#searchForm .s7 .row .s2,
@@ -49,7 +49,7 @@
 	<div class="col s9">
 		<input type="hidden" id="pageNum" name="pageNum" value="1">
 		<div class="row">
-			<h4><i class="material-icons">event_note</i> 가계부 관리</h4>
+			<h4><i class="material-icons">event_available</i> 가계부 관리</h4>
 		</div>
 		<div class="row">
 			<h5>
@@ -223,6 +223,7 @@
 			<ul class="pagination">
 			</ul>
 		</div>
+	</div>
 	
 	<!-- Modal Structure -->
 	<div id="registModal" class="modal">
@@ -1013,4 +1014,4 @@
 
 </script>
 
-<%@ include file="common/footer.jsp" %>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

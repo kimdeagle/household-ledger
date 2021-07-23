@@ -20,8 +20,8 @@ public class JoinController {
 	private JoinService joinService;
 
 	@GetMapping("")
-	public void join() {
-		
+	public String join() {
+		return "login/join";
 	}
 	
 	@GetMapping("/duplication/{id}")
