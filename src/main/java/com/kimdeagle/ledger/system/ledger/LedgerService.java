@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.kimdeagle.ledger.user.UserDto;
 import com.kimdeagle.ledger.util.Result;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,9 @@ public class LedgerService {
 	
 	@Autowired
 	private LedgerMapper ledgerMapper;
+	
+	@Autowired
+	private HttpSession session;
 
 	public ResponseEntity<Result> getList(LedgerDto ledger) {
 		
@@ -94,6 +100,13 @@ public class LedgerService {
 		}
 		
 		return ResponseEntity.ok(result.success("삭제 성공"));
+	}
+
+	public StatDto getTodayStat(String today) {
+		StatDto stat = new StatDto();
+		stat.setToday(today);
+		stat.setUserNo(((UserDto)session.getAttribute("user")).getNo());
+		return ledgerMapper.getTodayStat(stat);
 	}
 
 }

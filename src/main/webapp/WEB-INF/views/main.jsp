@@ -11,7 +11,7 @@
 		<h4>TODO LIST</h4>
 		<ol>
 			<li>change anonymous function into arrow function (ledger.jsp)</li>
-			<li>statistics</li>
+			<li>statistics (monthly, annual, set date)</li>
 			<li>profile</li>
 			<li>main</li>
 			<li>footer</li>

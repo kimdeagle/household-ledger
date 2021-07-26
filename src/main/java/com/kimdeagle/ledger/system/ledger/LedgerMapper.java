@@ -19,4 +19,6 @@ public interface LedgerMapper {
 
 	int getTotalCnt(LedgerDto ledger);
 
+	StatDto getTodayStat(StatDto stat);
+
 }

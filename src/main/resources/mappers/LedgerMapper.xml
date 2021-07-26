@@ -92,4 +92,56 @@
 		<include refid="search"></include>
 	</select>
 	
+	<select id="getTodayStat" resultType="com.kimdeagle.ledger.system.ledger.StatDto">
+		SELECT
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE = '2021-07-23'
+				AND
+					IN_OUT = 'in'
+			) AS INCOME,
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE = '2021-07-23'
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE = '2021-07-23'
+				AND
+					IN_OUT = 'in'
+			) AS INCOME_CNT,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE = '2021-07-23'
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS_CNT
+	</select>
+	
 </mapper>

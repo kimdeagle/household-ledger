@@ -1,5 +1,9 @@
 package com.kimdeagle.ledger.system.ledger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +71,7 @@ public class LedgerController {
 	@GetMapping("/stat")
 	public String stat(Model model) {
 		model.addAttribute("title", "가계부 통계");
+		model.addAttribute("todayStat", ledgerService.getTodayStat(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
 		return "ledger/stat";
 	}
 	
