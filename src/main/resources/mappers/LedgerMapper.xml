@@ -102,7 +102,7 @@
 				WHERE
 					USER_NO = #{userNo}
 				AND
-					ADD_DATE = '2021-07-23'
+					ADD_DATE = #{date}
 				AND
 					IN_OUT = 'in'
 			) AS INCOME,
@@ -114,7 +114,7 @@
 				WHERE
 					USER_NO = #{userNo}
 				AND
-					ADD_DATE = '2021-07-23'
+					ADD_DATE = #{date}
 				AND
 					IN_OUT = 'out'
 			) AS OUTGOINGS,
@@ -126,7 +126,7 @@
 				WHERE
 					USER_NO = #{userNo}
 				AND
-					ADD_DATE = '2021-07-23'
+					ADD_DATE = #{date}
 				AND
 					IN_OUT = 'in'
 			) AS INCOME_CNT,
@@ -138,7 +138,113 @@
 				WHERE
 					USER_NO = #{userNo}
 				AND
-					ADD_DATE = '2021-07-23'
+					ADD_DATE = #{date}
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS_CNT
+	</select>
+	
+	<select id="getMonthlyStat" resultType="com.kimdeagle.ledger.system.ledger.StatDto">
+		SELECT
+			#{date} AS DATE,
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'in'
+			) AS INCOME,
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'in'
+			) AS INCOME_CNT,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS_CNT
+	</select>
+	
+	<select id="getAnnualStat" resultType="com.kimdeagle.ledger.system.ledger.StatDto">
+		SELECT
+			#{date} AS DATE,
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'in'
+			) AS INCOME,
+			(
+				SELECT
+					IFNULL(SUM(AMOUNT), 0)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'out'
+			) AS OUTGOINGS,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
+				AND
+					IN_OUT = 'in'
+			) AS INCOME_CNT,
+			(
+				SELECT
+					COUNT(*)
+				FROM
+					SY_LEDGER
+				WHERE
+					USER_NO = #{userNo}
+				AND
+					ADD_DATE LIKE CONCAT('%', #{date}, '%')
 				AND
 					IN_OUT = 'out'
 			) AS OUTGOINGS_CNT

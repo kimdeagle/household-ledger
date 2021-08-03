@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kimdeagle.ledger.util.Pagination;
-
 @Mapper
 public interface LedgerMapper {
 
@@ -20,5 +18,9 @@ public interface LedgerMapper {
 	int getTotalCnt(LedgerDto ledger);
 
 	StatDto getTodayStat(StatDto stat);
+
+	StatDto getMonthlyStat(StatDto stat);
+	
+	StatDto getAnnualStat(StatDto stat);
 
 }

@@ -14,7 +14,7 @@
 			<a id="setDate" class="btn waves-effect waves-light grey">기간 설정</a>
 		</div>
 		<div class="row">
-			<h5>Today <small>(수입 : ${todayStat.incomeCnt}건 / 지출 : ${todayStat.outgoingsCnt}건)</small></h5>
+			<h5 id="title">Today <small>(수입 : ${stat.incomeCnt}건 / 지출 : ${stat.outgoingsCnt}건)</small></h5>
 			<div class="right-align">
 				<div class="red" style="width: 15px; height: 15px; display: inline-block;"></div>
 				수입
@@ -24,8 +24,11 @@
 		</div>
 		<div class="row">
 			<div class="col s10">
-				<div id="income" class="red tooltipped center-align white-text" data-position="top" data-tooltip="<fmt:formatNumber value="${todayStat.income}" pattern="#,###" />원" style="height: 20px; float: left;"></div>
-				<div id="outgoings" class="blue tooltipped center-align white-text" data-position="top" data-tooltip="<fmt:formatNumber value="${todayStat.outgoings}" pattern="#,###" />원" style="height: 20px; float: left;"></div>
+				<c:if test="${stat.income == 0 && stat.outgoings == 0}">
+					<h5 class="center-align">수입 / 지출 항목이 없습니다.</h5>
+				</c:if>
+				<div id="income" class="red tooltipped center-align white-text" data-position="top" data-tooltip="<fmt:formatNumber value="${stat.income}" pattern="#,###" />원" style="height: 20px; float: left;"></div>
+				<div id="outgoings" class="blue tooltipped center-align white-text" data-position="top" data-tooltip="<fmt:formatNumber value="${stat.outgoings}" pattern="#,###" />원" style="height: 20px; float: left;"></div>
 			</div>
 		</div>
 		
@@ -38,17 +41,88 @@
 		});
 		
 		$(document).ready(function() {
+			var incomeTooltip = M.Tooltip.getInstance($("#income"));
+			var outgoingsTooltip = M.Tooltip.getInstance($("#outgoings"));
 			$(".material-tooltip:first").addClass("red darken-2");
 			$(".material-tooltip:last").addClass("blue darken-2");
 			
-			var income = ${todayStat.income};
-			var outgoings = ${todayStat.outgoings};
+			var income = parseInt(${stat.income});
+			var outgoings = parseInt(${stat.outgoings});
 			
 			var incomeWidth = (income / (income + outgoings) * 100).toFixed(1) + "%";
 			var outgoingsWidth = (outgoings / (income + outgoings) * 100).toFixed(1) + "%";
 			
 			$("#income").css("width", incomeWidth);
 			$("#outgoings").css("width", outgoingsWidth);
+			
+			$("#today").click(function() {
+				location.reload();
+			});
+			
+			$("#monthly").click(function() {
+				$.ajax({
+					method: "get",
+					url: "/ledger/stat/monthly",
+					success: function(res) {
+						console.log(res);
+						
+						income = parseInt(res.income);
+						outgoings = parseInt(res.outgoings);
+						
+						incomeWidth = (income / (income + outgoings) * 100).toFixed(1) + "%";
+						outgoingsWidth = (outgoings / (income + outgoings) * 100).toFixed(1) + "%";
+						
+						$("#title").html(res.date.substring(0, 4) + "년 " + res.date.substring(5) + "월 <small>(수입 : " + res.incomeCnt + "건 / 지출 : " + res.outgoingsCnt + "건)</small>");
+						incomeTooltip.el.dataset.tooltip = income.toLocaleString('ko-KR') + "원";
+						outgoingsTooltip.el.dataset.tooltip = outgoings.toLocaleString('ko-KR') + "원";
+						
+						$("#income").css("width", incomeWidth);
+						$("#outgoings").css("width", outgoingsWidth);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
+			});
+			
+			$("#annual").click(function() {
+				$.ajax({
+					method: "get",
+					url: "/ledger/stat/annual",
+					success: function(res) {
+						console.log(res);
+						
+						income = parseInt(res.income);
+						outgoings = parseInt(res.outgoings);
+						
+						incomeWidth = (income / (income + outgoings) * 100).toFixed(1) + "%";
+						outgoingsWidth = (outgoings / (income + outgoings) * 100).toFixed(1) + "%";
+						
+						$("#title").html(res.date + "년 <small>(수입 : " + res.incomeCnt + "건 / 지출 : " + res.outgoingsCnt + "건)</small>");
+						incomeTooltip.el.dataset.tooltip = income.toLocaleString('ko-KR') + "원";
+						outgoingsTooltip.el.dataset.tooltip = outgoings.toLocaleString('ko-KR') + "원";
+						
+						$("#income").css("width", incomeWidth);
+						$("#outgoings").css("width", outgoingsWidth);
+					},
+					error: function(err) {
+						console.log(err);
+					}
+				});
+			});
+			
+			$("#setDate").click(function() {
+				$.ajax({
+					method: "get",
+					url: "/ledger/stat/setDate",
+					success: function(res) {
+						
+					},
+					error: function(err) {
+						
+					}
+				});
+			});
 			
 		});
 		

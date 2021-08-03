@@ -1,5 +1,7 @@
 package com.kimdeagle.ledger.system.ledger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,11 +104,22 @@ public class LedgerService {
 		return ResponseEntity.ok(result.success("삭제 성공"));
 	}
 
-	public StatDto getTodayStat(String today) {
-		StatDto stat = new StatDto();
-		stat.setToday(today);
-		stat.setUserNo(((UserDto)session.getAttribute("user")).getNo());
+	public StatDto getTodayStat() {
+		String userNo = ((UserDto)session.getAttribute("user")).getNo();
+		StatDto stat = StatDto.todayStat(userNo);
 		return ledgerMapper.getTodayStat(stat);
+	}
+
+	public StatDto getMonthlyStat() {
+		String userNo = ((UserDto)session.getAttribute("user")).getNo();
+		StatDto stat = StatDto.monthlyStat(userNo);
+		return ledgerMapper.getMonthlyStat(stat);
+	}
+	
+	public StatDto getAnnualStat() {
+		String userNo = ((UserDto)session.getAttribute("user")).getNo();
+		StatDto stat = StatDto.annualStat(userNo);
+		return ledgerMapper.getAnnualStat(stat);
 	}
 
 }
